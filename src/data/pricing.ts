@@ -2,36 +2,36 @@ import { IPricing } from "@/types";
 
 export const tiers: IPricing[] = [
     {
-        name: 'Starter',
-        price: 29,
+        name: '',
+        price: 'Workshop',
         features: [
-            'Basic cloud integration',
-            'Up to 5 team members',
-            '20GB storage',
-            'Email support',
+            'Lorem ipsum',
+            'Dolor sit amet',
+            'Consectetur adipiscing',
+            'Elit sed do',
         ],
     },
     {
-        name: 'Pro',
-        price: 99,
+        name: '',
+        price: 'Lab',
         features: [
-            'Advanced cloud integration',
-            'Up to 20 team members',
-            '100GB storage',
-            'Priority email & phone support',
-            'Advanced analytics',
+            'Lorem ipsum',
+            'Dolor sit amet',
+            'Consectetur adipiscing',
+            'Elit sed do',
+            'Eiusmod tempor'
         ],
     },
     {
-        name: 'Enterprise',
-        price: 'Custom',
+        name: '',
+        price: 'Course',
         features: [
-            'Full cloud integration',
-            'Unlimited team members',
-            'Unlimited storage',
-            '24/7 dedicated support',
-            'Custom solutions',
-            'On-site training',
+            'Lorem ipsum',
+            'Dolor sit amet',
+            'Consectetur adipiscing',
+            'Elit sed do',
+            'Eiusmod tempor',
+            'Incididunt ut labore',
         ],
     },
 ]

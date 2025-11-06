@@ -13,22 +13,22 @@ const HomePage: React.FC = () => {
   return (
     <>
       <Hero />
-      <Logos />
+      {/* <Logos /> */}
       <Container>
         <Benefits />
 
         <Section
-          id="pricing"
-          title="Pricing"
-          description="Simple, transparent pricing. No surprises."
+          id="Products"
+          title="Products"
+          description="Choose what fits your needs. Contact us for custom plans."
         >
           <Pricing />
         </Section>
 
         <Section
-          id="Partners"
-          title="What Our Clients Say"
-          description="Hear from those who have partnered with us."
+          id="Team"
+          title="Core Team"
+          description="Meet the brains behind Mintro Labs."
         >
           <Partners />
         </Section>

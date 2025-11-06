@@ -1,8 +1,8 @@
 export const siteDetails = {
-  siteName: "Ed3Lab",
+  siteName: "Mintro Labs",
   siteUrl: "https://finwise-omega.vercel.app/",
   metadata: {
-    title: "Ed3Lab",
+    title: "Mintro Labs",
     description:
       "Finwise empowers businesses with cutting-edge technology solutions to drive success and efficiency.",
   },

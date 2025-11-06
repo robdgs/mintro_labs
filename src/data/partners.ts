@@ -3,21 +3,15 @@ import { siteDetails } from "./siteDetails";
 
 export const partners: IPartner[] = [
   {
-    name: "John Smith",
-    role: "CEO at Company",
-    message: `${siteDetails.siteName}'s AI-driven insights have transformed how we approach financial planning for our clients. It's an invaluable resource in the modern financial landscape.`,
-    avatar: "/images/partner-1.webp",
+    name: "Roberta D'Agostino",
+    role: "Founder & CEO",
+    message: `"I am passionate about leveraging technology to create impactful learning experiences. With a background in both education and technology, I strive to bridge the gap between these two fields to empower individuals and organizations alike."`,
+    avatar: "/images/1683047162432.jpeg",
   },
   {
-    name: "Jane Doe",
-    role: "CTO at Startup",
-    message: `As a CTO, I'm impressed by ${siteDetails.siteName}'s robust security measures and seamless integrations. It's rare to find an app that balances user-friendliness with such advanced technology.`,
-    avatar: "/images/partner-2.webp",
-  },
-  {
-    name: "Emily Johnson",
-    role: "Product Manager",
-    message: `${siteDetails.siteName} is revolutionizing personal finance management. Its intuitive design and powerful features make it an indispensable tool for anyone serious about financial growth.`,
-    avatar: "/images/partner-3.webp",
+    name: "Alessandro Fiumicelli",
+    role: "CTO & Learning Specialist",
+    message: `"I am dedicated to driving innovation and ensuring our technological solutions meet the highest standards. My expertise in software development and passion for education fuels my commitment to creating tools that enhance learning and foster growth.`,
+    avatar: "/images/af.jpeg",
   },
 ];

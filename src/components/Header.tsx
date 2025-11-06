@@ -32,7 +32,7 @@ const Header: React.FC = () => {
               quality={100}
               priority={true}
               unoptimized={true}
-              alt="Ed3Lab arrow"
+              alt="Mintro Labs arrow"
               className="relative mx-auto z-10"
             />
             {/*<FaFingerprint className="text-foreground min-w-fit w-7 h-7" /> */}
