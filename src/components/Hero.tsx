@@ -31,9 +31,9 @@ const Hero: React.FC = () => {
         <h1 className="text-4xl md:text-6xl md:leading-tight font-bold text-foreground max-w-lg md:max-w-2xl mx-auto">
           Mintro Labs
         </h1>
-        <h4 className="text-3xl md:text-4xl md:leading-tight font-bold text-foreground max-w-lg md:max-w-1xl mx-auto">
+        <h4 className="text-3xl md:text-3xl md:leading-tight font-bold text-foreground max-w-lg md:max-w-1xl mx-auto">
           {" "}
-          Start Strong. Grow Stronger.
+          Next-Gen Learning Protocol
         </h4>
         <p className="mt-4 text-foreground max-w-lg mx-auto">
           {heroDetails.subheading}

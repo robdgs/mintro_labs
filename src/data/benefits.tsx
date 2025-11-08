@@ -14,25 +14,25 @@ import { IBenefit } from "@/types";
 
 export const benefits: IBenefit[] = [
   {
-    title: "Gamified Path",
+    title: "Gamified Learning",
     description:
-      "Take the guesswork out of managing your money. Our AI-powered budgeting tool adapts to your lifestyle and helps you stay on track.",
+      "Learning becomes an experience. Mintro Labs transforms courses and workshops into dynamic journeys built on progress, challenge, and discovery.",
     bullets: [
       {
-        title: "Intelligent Categorization",
+        title: "Progressive Modules",
         description:
-          "Automatically sorts your transactions for crystal-clear insights.",
+          "Structured like a game where you advance through curated modules that evolve with your skills",
         icon: <FiBarChart2 size={26} />,
       },
       {
-        title: "Customizable Goals",
-        description: "Set and track financial objectives that matter to you.",
+        title: "Verified Credentials",
+        description: "Earn on-chain certificates aligned with the ELEVATE framework of the Digital Europe Programme",
         icon: <FiTarget size={26} />,
       },
       {
-        title: "Predictive Analysis",
+        title: "Challenges",
         description:
-          "Get ahead of your finances with spending forecasts and alerts.",
+          "Apply knowledge in hands-on projects and competitions that strengthen teamwork and creativity.",
         icon: <FiTrendingUp size={26} />,
       },
     ],
@@ -42,18 +42,18 @@ export const benefits: IBenefit[] = [
   {
     title: "Learning Resources",
     description:
-      "Your financial data deserves the best protection. Rest easy knowing Finwise employs cutting-edge security measures.",
+      "A single ecosystem for Web3 learning: clear, accessible, and designed to reduce noise while boosting understanding.",
     bullets: [
       {
-        title: "Military-Grade Encryption",
+        title: "Unified Knowledge Hub",
         description:
-          "Your information is safeguarded with the highest level of encryption.",
+          "Articles, guides, and tutorials in one cohesive platform.",
         icon: <FiLock size={26} />,
       },
       {
-        title: "Biometric Authentication",
+        title: "AI Study Companion",
         description:
-          "Access your account securely with fingerprint or facial recognition.",
+          "Get personalized study recommendations and resources based on your learning style and progress.",
         icon: <FiUser size={26} />,
       },
       {
@@ -68,21 +68,21 @@ export const benefits: IBenefit[] = [
   {
     title: "By Our Side",
     description:
-      "Start building wealth today, no financial degree required. Finwise makes investing accessible and straightforward.",
+      "Mintro Labs partners with ABA2020 to bring innovation directly to schools, universities, and enterprises.",
     bullets: [
       {
-        title: "Micro-Investing",
-        description: "Begin with as little as $1 and watch your money grow.",
+        title: "Proven Expertise",
+        description: "ABA2020 has collaborated with Roma Tre, LUISS, UCBM, and institutions across Italy.",
         icon: <FiDollarSign size={26} />,
       },
       {
-        title: "Expert Portfolios",
+        title: "Educational Access",
         description:
-          "Choose from investment strategies tailored to your risk tolerance.",
+          "Delivered through PCTO programs and European innovation grants, ensuring real impact in classrooms.",
         icon: <FiBriefcase size={26} />,
       },
       {
-        title: "Real-Time Performance",
+        title: "Shared Vision",
         description:
           "Track your investments with easy-to-understand metrics and visuals.",
         icon: <FiPieChart size={26} />,
