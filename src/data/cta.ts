@@ -1,5 +1,5 @@
 export const ctaDetails = {
-    heading: ''
+    heading: '',
     subheading: '',
     appStoreUrl: '#',
     googlePlayUrl: '#'
