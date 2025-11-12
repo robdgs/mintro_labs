@@ -1,5 +1,5 @@
 import {
-  FiBarChart2,
+  FiBarChart,
   FiBriefcase,
   FiDollarSign,
   FiLock,
@@ -8,21 +8,35 @@ import {
   FiTarget,
   FiTrendingUp,
   FiUser,
+  FiUsers,
+  FiTool,
+  FiZap,
+  FiThumbsUp,
+  FiPaperclip,
+  FiCpu,
+  FiFileText,
+  FiGift,
+  FiBookOpen,
+  FiDribbble,
+  FiArchive,
+  FiCode,
+  FiCheckSquare
 } from "react-icons/fi";
 
 import { IBenefit } from "@/types";
 
 export const benefits: IBenefit[] = [
+   
   {
-    title: "Gamified Learning",
+    title: "Gamification",
     description:
-      "Learning becomes an experience. Mintro Labs transforms courses and workshops into dynamic journeys built on progress, challenge, and discovery.",
+      "Education hasn’t evolved, it’s time it did. Learning becomes an experience with maieutic questioning and hands-on activities. \n Mintro Labs transforms courses and workshops into dynamic journeys built on progress, challenge, and discovery.",
     bullets: [
       {
         title: "Progressive Modules",
         description:
           "Structured like a game where you advance through curated modules that evolve with your skills",
-        icon: <FiBarChart2 size={26} />,
+        icon: <FiCode size={26} />,
       },
       {
         title: "Verified Credentials",
@@ -32,8 +46,8 @@ export const benefits: IBenefit[] = [
       {
         title: "Challenges",
         description:
-          "Apply knowledge in hands-on projects and competitions that strengthen teamwork and creativity.",
-        icon: <FiTrendingUp size={26} />,
+          "Apply knowledge in hands-on projects and competitions between different high schools that strengthen teamwork and creativity.",
+        icon: <FiDribbble size={26} />,
       },
     ],
     imageSrc: "/images/mock2.png",
@@ -42,13 +56,13 @@ export const benefits: IBenefit[] = [
   {
     title: "Learning Resources",
     description:
-      "A single ecosystem for Web3 learning: clear, accessible, and designed to reduce noise while boosting understanding.",
+      "No more scattered tutorials or fragmented resources. \n Mintro Labs centralizes all learning materials, from guides and documentation to tests and competitions into one gamified platform. \n A single ecosystem for Web3 learning: clear, accessible, and designed to reduce noise while boosting understanding.",
     bullets: [
       {
         title: "Unified Knowledge Hub",
         description:
           "Articles, guides, and tutorials in one cohesive platform.",
-        icon: <FiLock size={26} />,
+        icon: <FiBookOpen size={26} />,
       },
       {
         title: "AI Study Companion",
@@ -57,9 +71,9 @@ export const benefits: IBenefit[] = [
         icon: <FiUser size={26} />,
       },
       {
-        title: "Real-Time Fraud Detection",
+        title: "Test Your Knowledge",
         description:
-          "Our system constantly monitors for suspicious activity to keep your money safe.",
+          "Interactive quizzes and challenges to reinforce learning and track your progress.",
         icon: <FiShield size={26} />,
       },
     ],
@@ -68,24 +82,24 @@ export const benefits: IBenefit[] = [
   {
     title: "By Our Side",
     description:
-      "Mintro Labs partners with ABA2020 to bring innovation directly to schools, universities, and enterprises.",
+      "Mintro Labs partners with ABA2020 to bring innovation directly to schools, universities, and enterprises. \n Thanks to ABA2020 Mintro Labs delivers hands-on blockchain education directly into classrooms and universities.",
     bullets: [
       {
         title: "Proven Expertise",
         description: "ABA2020 has collaborated with Roma Tre, LUISS, UCBM, and institutions across Italy.",
-        icon: <FiDollarSign size={26} />,
+        icon: <FiArchive size={26} />,
       },
       {
         title: "Educational Access",
         description:
           "Delivered through PCTO programs and European innovation grants, ensuring real impact in classrooms.",
-        icon: <FiBriefcase size={26} />,
+        icon: <FiCpu size={26} />,
       },
       {
         title: "Shared Vision",
         description:
           "Track your investments with easy-to-understand metrics and visuals.",
-        icon: <FiPieChart size={26} />,
+        icon: <FiUsers size={26} />,
       },
     ],
     imageSrc: "/images/aba.png",

@@ -4,7 +4,7 @@ import {partners}  from "@/data/partners";
 
 const Partners: React.FC = () => {
   return (
-    <div className="flex flex-wrap gap-6 justify-center">
+    <div className="flex flex-wrap gap-6 justify-center text-foreground">
       {partners.map((partner, index) => (
         <div 
           key={index} 

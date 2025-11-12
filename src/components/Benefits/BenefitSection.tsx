@@ -50,7 +50,7 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
     const { title, description, imageSrc, bullets } = benefit;
 
     return (
-        <section className="benefit-section pt-20 relative">
+        <section className="benefit-section pt-20 relative text-foreground">
             <div className="absolute left-0 top-0 bottom-0 -z-10 w-full">
                 <div className="absolute inset-0 h-full w-full bg-hero-background bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)]"></div>
             </div>
@@ -68,7 +68,7 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
                 >
                     <div className="w-full text-center lg:text-left">
                         <motion.div
-                            className="flex flex-col w-full"
+                            className="flex flex-col w-full "
                             variants={childVariants}
                         >
                             <SectionTitle>
@@ -77,12 +77,18 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
                                 </h3>
                             </SectionTitle>
 
-                            <p className="mt-1.5 mx-auto lg:ml-0 leading-normal text-foreground-accent">
-                                {description}
-                            </p>
+                        <p className="mt-1.5 mx-auto lg:ml-0 leading-normal text-foreground-accent">
+                            {description.split("\n").map((line, i) => (
+                                <span key={i}>
+                                {line.trim()}
+                                <br />
+                                </span>
+                            ))}
+                        </p>
+
                         </motion.div>
 
-                        <div className="mx-auto lg:ml-0 w-full">
+                        <div className="mx-auto lg:ml-0 w-full space-y-4 border-l-4 border-secondary pl-6">
                             {bullets.map((item, index) => (
                                 <BenefitBullet key={index} title={item.title} icon={item.icon} description={item.description} />
                             ))}

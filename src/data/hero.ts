@@ -1,6 +1,6 @@
 export const heroDetails = {
   heading: "Mintro Labs: Start Strong, Grow Stronger.",
   subheading:
-    "Mintro Labs redefines how new generations learn Web3, blending maieutic thinking, gamified learning, and blockchain-powered credentials. We make education interactive, collaborative, and future-ready.",
+    "Mintro Labs blends Socratic learning, gamified experiences, and Web3 technology to redefine how new generations learn, collaborate, and grow. We make education interactive, verifiable, and built for the digital future.",
   centerImageSrc: "/images/logo.svg",
 };

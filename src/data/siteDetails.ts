@@ -1,10 +1,10 @@
 export const siteDetails = {
   siteName: "Mintro Labs",
-  siteUrl: "https://finwise-omega.vercel.app/",
+  siteUrl: "",
   metadata: {
     title: "Mintro Labs",
     description:
-      "Finwise empowers businesses with cutting-edge technology solutions to drive success and efficiency.",
+      "",
   },
   language: "en-us",
   locale: "en-US",

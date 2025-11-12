@@ -2,21 +2,22 @@ import { BsBarChartFill, BsFillStarFill } from "react-icons/bs";
 import { PiGlobeFill } from "react-icons/pi";
 
 import { IStats } from "@/types";
+import { BiSolidMedal } from "react-icons/bi";
 
 export const stats: IStats[] = [
     {
-        title: "20M+",
+        title: "1500+",
         icon: <BsBarChartFill size={34} className="text-blue-500" />,
-        description: "Transactions processed securely every day, providing real-time insights."
+        description: "High Schools willing to increase their STEM offerings."
     },
     {
-        title: "5.0",
-        icon: <BsFillStarFill size={34} className="text-yellow-500" />,
-        description: "Star rating, consistently maintained across app stores."
+        title: "1st",
+        icon: <BiSolidMedal size={34} className="text-yellow-500" />,
+        description: "Scalable and trustful Italian Web3 education provider"
     },
     {
-        title: "200+ ",
+        title: "$9.39B ",
         icon: <PiGlobeFill size={34} className="text-green-600" />,
-        description: "Financial Institutions, seamlessly integrated, so you can manage all accounts."
+        description: "Web3 Education market potential by 2033."
     }
 ];

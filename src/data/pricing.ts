@@ -5,10 +5,10 @@ export const tiers: IPricing[] = [
         name: '',
         price: 'Workshop',
         features: [
-            'Lorem ipsum',
-            'Dolor sit amet',
-            'Consectetur adipiscing',
-            'Elit sed do',
+            'All necessary materials and tools',
+            'Digital workbook and resources',
+            'Post-workshop support (1 week)',
+            'Access to community forum',
         ],
     },
     {
@@ -19,7 +19,6 @@ export const tiers: IPricing[] = [
             'Dolor sit amet',
             'Consectetur adipiscing',
             'Elit sed do',
-            'Eiusmod tempor'
         ],
     },
     {
@@ -30,8 +29,7 @@ export const tiers: IPricing[] = [
             'Dolor sit amet',
             'Consectetur adipiscing',
             'Elit sed do',
-            'Eiusmod tempor',
-            'Incididunt ut labore',
+
         ],
     },
 ]

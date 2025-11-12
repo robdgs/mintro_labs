@@ -5,13 +5,14 @@ export const partners: IPartner[] = [
   {
     name: "Roberta D'Agostino",
     role: "Founder & CEO",
-    message: `"I am passionate about leveraging technology to create impactful learning experiences. With a background in both education and technology, I strive to bridge the gap between these two fields to empower individuals and organizations alike."`,
+    message: `"Education has always been about asking the right questions. With Mintro Labs, I’m bringing the Socratic spirit into the digital age creating learning experiences that are interactive, meaningful, and built for the future."`,
     avatar: "/images/1683047162432.jpeg",
   },
   {
     name: "Alessandro Fiumicelli",
-    role: "CTO & Learning Specialist",
-    message: `"I am dedicated to driving innovation and ensuring our technological solutions meet the highest standards. My expertise in software development and passion for education fuels my commitment to creating tools that enhance learning and foster growth.`,
+    role: "CBDO & Learning Architect",
+    message: `"At Mintro Labs, I combine technology and learning design to make knowledge more engaging and accessible. My goal is to build bridges between innovation, education, and real-world application through thoughtful, gamified strategies."`,
     avatar: "/images/af.jpeg",
   },
 ];
+
