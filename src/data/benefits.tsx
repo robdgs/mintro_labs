@@ -98,7 +98,7 @@ export const benefits: IBenefit[] = [
       {
         title: "Shared Vision",
         description:
-          "Track your investments with easy-to-understand metrics and visuals.",
+          "Aba2020 and Mintro Labs are committed to democratizing blockchain education for all.",
         icon: <FiUsers size={26} />,
       },
     ],
