@@ -3,7 +3,6 @@ import Image from "next/image";
 import clsx from "clsx";
 import { motion, Variants } from "framer-motion"
 
-import BenefitBullet from "./BenefitBullet";
 import SectionTitle from "../SectionTitle";
 import { IBenefit } from "@/types";
 
@@ -62,42 +61,97 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
                 whileInView="onscreen"
                 viewport={{ once: true }}
             >
+                {/* Text Content */}
                 <div
                     className={clsx("flex flex-wrap items-center w-full lg:w-1/2", { "lg:order-1": !imageAtRight })}
-                    
                 >
                     <div className="w-full text-center lg:text-left">
+                        {/* Title Card */}
                         <motion.div
-                            className="flex flex-col w-full "
+                            className="bg-white/80 backdrop-blur-sm rounded-3xl p-6 lg:p-8 shadow-lg border border-gray-200/50 mb-6"
                             variants={childVariants}
                         >
-                            <SectionTitle>
-                                <h3 className="lg:max-w-2xl">
-                                    {title}
-                                </h3>
-                            </SectionTitle>
-
-                        <p className="mt-1.5 mx-auto lg:ml-0 leading-normal text-foreground-accent">
-                            {description.split("\n").map((line, i) => (
-                                <span key={i}>
-                                {line.trim()}
-                                <br />
-                                </span>
-                            ))}
-                        </p>
-
+                            <div className="flex items-start gap-3">
+                                <div className="flex-shrink-0 w-1.5 h-12 bg-gradient-to-b from-secondary to-primary rounded-full"></div>
+                                <div className="flex-1">
+                                    <SectionTitle>
+                                        <h3 className="lg:max-w-2xl !text-2xl lg:!text-3xl">
+                                            {title}
+                                        </h3>
+                                    </SectionTitle>
+                                    <p className="mt-3 leading-normal text-foreground-accent text-base">
+                                        {description.split("\n").map((line, i) => (
+                                            <span key={i}>
+                                                {line.trim()}
+                                                <br />
+                                            </span>
+                                        ))}
+                                    </p>
+                                </div>
+                            </div>
                         </motion.div>
 
-                        <div className="mx-auto lg:ml-0 w-full space-y-4 border-l-4 border-secondary pl-6">
+                        {/* Bullets */}
+                        <div className="space-y-4">
                             {bullets.map((item, index) => (
-                                <BenefitBullet key={index} title={item.title} icon={item.icon} description={item.description} />
+                                <motion.div
+                                    key={index}
+                                    className="group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl p-4 border border-gray-200/50 hover:border-secondary/30 transition-all duration-300 hover:shadow-md"
+                                    variants={childVariants}
+                                >
+                                    <div className="flex items-start gap-3">
+                                        <div className="flex-shrink-0 p-2 bg-white rounded-xl shadow-sm group-hover:shadow-md group-hover:scale-110 transition-all duration-300 border border-secondary/20">
+                                            <div className="text-secondary">
+                                                {item.icon}
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="flex-1 text-left">
+                                            <h4 className="text-lg font-semibold text-foreground mb-1 group-hover:text-secondary transition-colors">
+                                                {item.title}
+                                            </h4>
+                                            <p className="text-base text-foreground-accent">
+                                                {item.description}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                </motion.div>
                             ))}
                         </div>
                     </div>
                 </div>
 
+                {/* Image */}
                 <div className={clsx("mt-5 lg:mt-0 w-full lg:w-1/2 flex justify-center", { "lg:order-2": imageAtRight })}>
-                    <Image src={imageSrc} alt="title" width="300" height="450" quality={100}  />
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.3, duration: 0.8 }}
+                        className="relative group"
+                    >
+                        {/* Main image card */}
+                        <div className="relative  rounded-3xl  overflow-hidden 0 p-6">
+                            
+                            
+                            {/* Image with hover effect */}
+                            <div className="relative  duration-500">
+                                <Image 
+                                    src={imageSrc} 
+                                    alt={title} 
+                                    width={300} 
+                                    height={450} 
+                                    quality={100}
+                                    className="rounded-2xl"
+                                />
+                            </div>
+
+                            
+                        </div>
+
+                        
+                    </motion.div>
                 </div>
             </motion.div>
         </section>

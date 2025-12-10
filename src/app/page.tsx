@@ -8,12 +8,14 @@ import Container from "@/components/Container";
 import Section from "@/components/Section";
 import Stats from "@/components/Stats";
 import CTA from "@/components/CTA";
+import Descriptor from "@/components/Descriptor";
 
 
 const HomePage: React.FC = () => {
   return (
     <>
       <Hero />
+      <Descriptor />
       {/* <Logos /> */}
       <Container>
         <Benefits />
@@ -36,7 +38,7 @@ const HomePage: React.FC = () => {
 
         <FAQ />
 
-        <Stats />
+
 
         <CTA />
       </Container>
