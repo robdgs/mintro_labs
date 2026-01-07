@@ -9,6 +9,7 @@ import Section from "@/components/Section";
 import Stats from "@/components/Stats";
 import CTA from "@/components/CTA";
 import Descriptor from "@/components/Descriptor";
+import PartnerDisplay from "@/components/PartnerDisplay";
 
 
 const HomePage: React.FC = () => {
@@ -35,6 +36,7 @@ const HomePage: React.FC = () => {
         >
           <Partners />
         </Section>
+        <PartnerDisplay />
 
         <FAQ />
 
