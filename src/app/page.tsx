@@ -11,7 +11,6 @@ import CTA from "@/components/CTA";
 import Descriptor from "@/components/Descriptor";
 import PartnerDisplay from "@/components/PartnerDisplay";
 
-
 const HomePage: React.FC = () => {
   return (
     <>
@@ -39,8 +38,6 @@ const HomePage: React.FC = () => {
         <PartnerDisplay />
 
         <FAQ />
-
-
 
         <CTA />
       </Container>
