@@ -29,15 +29,13 @@ const Header: React.FC = () => {
   }, []);
 
   return (
-    <header 
+    <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? "py-2" 
-          : "py-4"
+        scrolled ? "py-2" : "py-4"
       }`}
     >
       <Container className="!px-0">
-        <nav 
+        <nav
           className={`relative transition-all duration-300 ${
             scrolled
               ? "bg-[#fafaf5] border-2 border-foreground shadow-[4px_4px_0px_0px_rgba(46,46,46,1)]"
@@ -46,9 +44,11 @@ const Header: React.FC = () => {
         >
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className={`relative transition-all duration-300 ${
-              scrolled ? "w-8 h-8" : "w-10 h-10"
-            }`}>
+            <div
+              className={`relative transition-all duration-300 ${
+                scrolled ? "w-8 h-8" : "w-10 h-10"
+              }`}
+            >
               <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity"></div>
               <Image
                 src={heroDetails.centerImageSrc}
@@ -62,9 +62,11 @@ const Header: React.FC = () => {
               />
             </div>
             <div className="flex flex-col">
-              <span className={`font-bold text-foreground transition-all duration-300 ${
-                scrolled ? "text-lg" : "text-xl"
-              }`}>
+              <span
+                className={`font-bold text-foreground transition-all duration-300 ${
+                  scrolled ? "text-lg" : "text-xl"
+                }`}
+              >
                 {siteDetails.siteName}
               </span>
               <span className="text-xs text-secondary font-semibold uppercase tracking-wider hidden md:block">
