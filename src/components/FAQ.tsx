@@ -25,25 +25,23 @@ const FAQ: React.FC = () => {
           <a
             href="mailto:"
             className="mt-3 block text-xl lg:text-4xl text-secondary font-semibold hover:underline text-center lg:text-left"
-          >
-            
-          </a>
+          ></a>
         </div>
 
-        <div className="w-full lg:max-w-2xl mx-auto border-b">
+        <div className="w-full lg:max-w-2xl mx-auto border-b-2 border-foreground">
           {faqs.map((faq, index) => (
             <div key={index} className="mb-7">
               <Disclosure>
                 {({ open }) => (
                   <>
-                    <DisclosureButton className="flex items-center justify-between w-full px-4 pt-7 text-lg text-left border-t">
+                    <DisclosureButton className="flex items-center justify-between w-full px-4 pt-7 text-lg text-left border-t-2 border-foreground">
                       <span className="text-2xl font-semibold">
                         {faq.question}
                       </span>
                       {open ? (
-                        <BiMinus className="w-5 h-5 text-secondary" />
+                        <BiMinus className="w-5 h-5 text-secondary border-2 border-foreground p-1" />
                       ) : (
-                        <BiPlus className="w-5 h-5 text-secondary" />
+                        <BiPlus className="w-5 h-5 text-secondary border-2 border-foreground p-1" />
                       )}
                     </DisclosureButton>
                     <DisclosurePanel className="px-4 pt-4 pb-2 text-foreground-accent">

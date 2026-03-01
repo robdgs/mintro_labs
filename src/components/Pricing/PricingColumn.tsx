@@ -1,6 +1,15 @@
-'use client';
-import React, { useState, useEffect } from 'react';
-import { X, Check, Calendar, Users, BookOpen, Wrench, FlaskConical, GraduationCap } from 'lucide-react';
+"use client";
+import React, { useState, useEffect } from "react";
+import {
+  X,
+  Check,
+  Calendar,
+  Users,
+  BookOpen,
+  Wrench,
+  FlaskConical,
+  GraduationCap,
+} from "lucide-react";
 
 type IconComponent = typeof Wrench;
 
@@ -31,112 +40,120 @@ interface ModalProps {
 
 const modalContent: Record<string, ModalContent> = {
   Workshop: {
-    title: 'Workshop Details',
+    title: "Workshop Details",
     icon: Wrench,
-    description: 'Hands-on, interactive sessions designed to build practical skills in a collaborative environment.',
-    duration: '2-4 hours',
-    participants: 'Up to 30 people',
-    format: 'Interactive & Practical',
+    description:
+      "Hands-on, interactive sessions designed to build practical skills in a collaborative environment.",
+    duration: "2-4 hours",
+    participants: "Up to 30 people",
+    format: "Interactive & Practical",
     benefits: [
-      'Immediate hands-on practice with real-world scenarios',
-      'Direct interaction with expert instructors',
-      'Collaborative problem-solving with peers',
-      'Take-home resources and materials',
-      'Certificate of completion',
+      "Immediate hands-on practice with real-world scenarios",
+      "Direct interaction with expert instructors",
+      "Collaborative problem-solving with peers",
+      "Take-home resources and materials",
+      "Certificate of completion",
     ],
     whatsIncluded: [
-      'All necessary materials and tools',
-      'Digital workbook and resources',
-      'Post-workshop support (1 week)',
-      'Access to community forum',
+      "All necessary materials and tools",
+      "Digital workbook and resources",
+      "Post-workshop support (1 week)",
+      "Access to community forum",
     ],
   },
   Lab: {
-    title: 'Lab Session Details',
+    title: "Lab Session Details",
     icon: FlaskConical,
-    description: 'Intensive, experimental learning sessions where you can explore, test, and innovate in a controlled environment.',
-    duration: '4-8 hours',
-    participants: 'Up to 15 people',
-    format: 'Experimental & Exploratory',
+    description:
+      "Intensive, experimental learning sessions where you can explore, test, and innovate in a controlled environment.",
+    duration: "4-8 hours",
+    participants: "Up to 15 people",
+    format: "Experimental & Exploratory",
     benefits: [
-      'Deep-dive into advanced concepts and techniques',
-      'Access to specialized equipment and tools',
-      'One-on-one mentorship opportunities',
-      'Freedom to experiment and iterate',
-      'Detailed feedback on your work',
+      "Deep-dive into advanced concepts and techniques",
+      "Access to specialized equipment and tools",
+      "One-on-one mentorship opportunities",
+      "Freedom to experiment and iterate",
+      "Detailed feedback on your work",
     ],
     whatsIncluded: [
-      'Advanced learning materials',
-      'Personal project guidance',
-      'Post-lab consultation (2 weeks)',
-      'Professional certificate',
+      "Advanced learning materials",
+      "Personal project guidance",
+      "Post-lab consultation (2 weeks)",
+      "Professional certificate",
     ],
   },
   Course: {
-    title: 'Course Details',
+    title: "Course Details",
     icon: GraduationCap,
-    description: 'Comprehensive, structured learning programs designed to provide in-depth knowledge and mastery of the subject.',
-    duration: '8-12 weeks',
-    participants: 'Up to 50 people',
-    format: 'Structured & Comprehensive',
+    description:
+      "Comprehensive, structured learning programs designed to provide in-depth knowledge and mastery of the subject.",
+    duration: "8-12 weeks",
+    participants: "Up to 50 people",
+    format: "Structured & Comprehensive",
     benefits: [
-      'Complete curriculum with progressive learning',
-      'Weekly live sessions and Q&A',
-      'Assignments and practical projects',
-      'Peer learning and networking opportunities',
-      'Industry-recognized certification',
+      "Complete curriculum with progressive learning",
+      "Weekly live sessions and Q&A",
+      "Assignments and practical projects",
+      "Peer learning and networking opportunities",
+      "Industry-recognized certification",
     ],
     whatsIncluded: [
-      'Full course materials and recordings',
-      'Interactive learning platform access',
-      'Personal learning dashboard',
-      'Ongoing instructor support',
-      'Career guidance and placement assistance',
+      "Full course materials and recordings",
+      "Interactive learning platform access",
+      "Personal learning dashboard",
+      "Ongoing instructor support",
+      "Career guidance and placement assistance",
     ],
   },
 };
 
 const tiers: Tier[] = [
   {
-    name: 'Workshop',
-    price: 'Workshop',
-    features: [      'All necessary materials and tools',
-      'Digital workbook and resources',
-      'Post-workshop support (1 week)',
-      'Access to community forum'],
-    buttonColor: 'bg-gray-100 hover:bg-gray-200 text-foreground',
+    name: "Workshop",
+    price: "Workshop",
+    features: [
+      "All necessary materials and tools",
+      "Digital workbook and resources",
+      "Post-workshop support (1 week)",
+      "Access to community forum",
+    ],
+    buttonColor: "bg-gray-100 hover:bg-gray-200 text-foreground",
   },
   {
-    name: 'Lab',
-    price: 'Lab',
+    name: "Lab",
+    price: "Lab",
     features: [
-'Advanced learning materials',
-'Personal project guidance',
-'Post-lab consultation (2 weeks)',
-'Onchain certificate'],
-    buttonColor: 'bg-secondary hover:bg-secondary text-white',
+      "Advanced learning materials",
+      "Personal project guidance",
+      "Post-lab consultation (2 weeks)",
+      "Onchain certificate",
+    ],
+    buttonColor: "bg-secondary hover:bg-secondary text-white",
     highlight: true,
   },
   {
-    name: 'Course',
-    price: 'Course',
-    features: ['Full course materials and recordings',
-'Personalized learning path',
-'Ongoing instructor support',
-'Challenges and competitions'],
-    buttonColor: 'bg-gray-100 hover:bg-gray-200 text-foreground',
+    name: "Course",
+    price: "Course",
+    features: [
+      "Full course materials and recordings",
+      "Personalized learning path",
+      "Ongoing instructor support",
+      "Challenges and competitions",
+    ],
+    buttonColor: "bg-gray-100 hover:bg-gray-200 text-foreground",
   },
 ];
 
 function Modal({ isOpen, onClose, children }: ModalProps): JSX.Element | null {
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     }
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = "unset";
     };
   }, [isOpen]);
 
@@ -145,11 +162,11 @@ function Modal({ isOpen, onClose, children }: ModalProps): JSX.Element | null {
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto text-foreground">
       {/* Backdrop */}
-      <div 
+      <div
         className="fixed inset-0 bg-black/70 backdrop-blur-md transition-opacity"
         onClick={onClose}
       />
-      
+
       {/* Modal Container */}
       <div className="flex min-h-full items-center justify-center p-4">
         <div className="relative w-full max-w-4xl animate-fadeIn">
@@ -174,11 +191,13 @@ export default function PricingWithModals(): JSX.Element {
     setTimeout(() => setSelectedTier(null), 300);
   };
 
-  const currentContent: ModalContent | null = selectedTier ? modalContent[selectedTier] : null;
+  const currentContent: ModalContent | null = selectedTier
+    ? modalContent[selectedTier]
+    : null;
   const IconComponent: IconComponent | undefined = currentContent?.icon;
 
   return (
-    <div className=" bg-white  px-2">
+    <div className="bg-[#fafaf5] px-2">
       <style>{`
         @keyframes fadeIn {
           from {
@@ -199,35 +218,47 @@ export default function PricingWithModals(): JSX.Element {
           {tiers.map((tier) => (
             <div
               key={tier.name}
-              className="bg-white rounded-2xl p-8 border border-gray-200 shadow-sm hover:shadow-md transition-shadow flex-1 text-foreground"
+              className="bg-[#fafaf5] border-2 border-foreground p-8 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 flex-1 text-foreground"
             >
-              <h2 className={`text-4xl font-bold mb-6 ${tier.highlight ? 'text-secondary' : 'text-foreground'}`}>
+              <h2
+                className={`text-4xl font-bold mb-6 ${
+                  tier.highlight ? "text-secondary" : "text-foreground"
+                }`}
+              >
                 {tier.price}
               </h2>
               <button
                 onClick={() => openModal(tier.name)}
-                className={`w-full ${tier.buttonColor} font-medium py-3 px-6 rounded-full transition-colors duration-200 mb-8`}
+                className={`w-full ${tier.buttonColor} border-2 border-foreground font-medium py-3 px-6 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 mb-8`}
               >
                 Learn more
               </button>
 
               <div className="space-y-4">
-                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">What is included:</h3>
-                {tier.name === 'Lab' && (
-                  <p className="text-gray-700 mb-3">Everything in Workshop, plus:</p>
+                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">
+                  What is included:
+                </h3>
+                {tier.name === "Lab" && (
+                  <p className="text-gray-700 mb-3">
+                    Everything in Workshop, plus:
+                  </p>
                 )}
-                {tier.name === 'Course' && (
+                {tier.name === "Course" && (
                   <p className="text-gray-700 mb-3">Everything in Lab, plus:</p>
                 )}
                 <ul className="space-y-3">
-                  {tier.features.map((feature, idx) => (
-                    feature && (
-                      <li key={idx} className="flex items-start gap-3 text-gray-700">
-                        <Check className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
-                        <span>{feature}</span>
-                      </li>
-                    )
-                  ))}
+                  {tier.features.map(
+                    (feature, idx) =>
+                      feature && (
+                        <li
+                          key={idx}
+                          className="flex items-start gap-3 text-gray-700"
+                        >
+                          <Check className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
+                          <span>{feature}</span>
+                        </li>
+                      )
+                  )}
                 </ul>
               </div>
             </div>
@@ -235,66 +266,80 @@ export default function PricingWithModals(): JSX.Element {
         </div>
       </div>
       <Modal isOpen={isOpen} onClose={closeModal}>
-        <div className="relative max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl border border-gray-200">
+        <div className="relative max-h-[90vh] overflow-y-auto bg-[#fafaf5] border-2 border-foreground shadow-[8px_8px_0px_0px_rgba(46,46,46,1)]">
           <button
             onClick={closeModal}
-            className="absolute top-6 right-6 text-gray-400 hover:text-gray-900 transition-colors z-10"
+            className="absolute top-6 right-6 text-foreground hover:text-secondary transition-colors z-10 border-2 border-foreground p-1 bg-[#fafaf5]"
           >
             <X className="w-6 h-6" />
           </button>
           {currentContent && IconComponent && (
             <div className="p-8 md:p-12">
               <div className="flex items-center gap-4 mb-6">
-                <div className="bg-emerald-100 p-4 rounded-2xl">
-                  <IconComponent className="w-8 h-8 text-emerald-600" />
+                <div className="bg-primary border-2 border-foreground p-4">
+                  <IconComponent className="w-8 h-8 text-foreground" />
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground">
                   {currentContent.title}
                 </h2>
               </div>
-              <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+              <p className="text-foreground-accent text-lg mb-8 leading-relaxed">
                 {currentContent.description}
               </p>
               <div className="grid md:grid-cols-3 gap-4 mb-8">
-                <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                  <Calendar className="w-6 h-6 text-emerald-600 mb-2" />
-                  <div className="text-sm text-gray-500">Duration</div>
-                  <div className="text-gray-900 font-semibold">{currentContent.duration}</div>
+                <div className="bg-[#fafaf5] border-2 border-foreground p-4">
+                  <Calendar className="w-6 h-6 text-foreground mb-2" />
+                  <div className="text-sm text-foreground-accent">Duration</div>
+                  <div className="text-foreground font-semibold">
+                    {currentContent.duration}
+                  </div>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                  <Users className="w-6 h-6 text-emerald-600 mb-2" />
-                  <div className="text-sm text-gray-500">Participants</div>
-                  <div className="text-gray-900 font-semibold">{currentContent.participants}</div>
+                <div className="bg-[#fafaf5] border-2 border-foreground p-4">
+                  <Users className="w-6 h-6 text-foreground mb-2" />
+                  <div className="text-sm text-foreground-accent">
+                    Participants
+                  </div>
+                  <div className="text-foreground font-semibold">
+                    {currentContent.participants}
+                  </div>
                 </div>
-                <div className="bg-gray-50 rounded-xl p-4 border border-gray-200">
-                  <BookOpen className="w-6 h-6 text-emerald-600 mb-2" />
-                  <div className="text-sm text-gray-500">Format</div>
-                  <div className="text-gray-900 font-semibold">{currentContent.format}</div>
+                <div className="bg-[#fafaf5] border-2 border-foreground p-4">
+                  <BookOpen className="w-6 h-6 text-foreground mb-2" />
+                  <div className="text-sm text-foreground-accent">Format</div>
+                  <div className="text-foreground font-semibold">
+                    {currentContent.format}
+                  </div>
                 </div>
               </div>
               <div className="mb-8">
-                <h4 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <span className="w-1 h-6 bg-emerald-500 rounded"></span>
+                <h4 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-foreground"></span>
                   Key Benefits
                 </h4>
                 <ul className="space-y-3">
                   {currentContent.benefits.map((benefit, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-gray-700">
-                      <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <li
+                      key={idx}
+                      className="flex items-start gap-3 text-foreground-accent"
+                    >
+                      <Check className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5 border border-foreground" />
                       <span>{benefit}</span>
                     </li>
                   ))}
                 </ul>
               </div>
               <div className="mb-8">
-                <h4 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <span className="w-1 h-6 bg-emerald-500 rounded"></span>
+                <h4 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
+                  <span className="w-1 h-6 bg-foreground"></span>
                   What's Included
                 </h4>
                 <ul className="space-y-3">
                   {currentContent.whatsIncluded.map((item, idx) => (
-                    <li key={idx} className="flex items-start gap-3 text-gray-700">
-                      <Check className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <li
+                      key={idx}
+                      className="flex items-start gap-3 text-foreground-accent"
+                    >
+                      <Check className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5 border border-foreground" />
                       <span>{item}</span>
                     </li>
                   ))}

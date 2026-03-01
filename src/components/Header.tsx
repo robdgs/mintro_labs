@@ -38,10 +38,10 @@ const Header: React.FC = () => {
     >
       <Container className="!px-0">
         <nav 
-          className={`relative rounded-2xl transition-all duration-300 ${
+          className={`relative transition-all duration-300 ${
             scrolled
-              ? "bg-white/95 backdrop-blur-md shadow-lg border border-gray-200/50"
-              : "bg-white/80 backdrop-blur-sm shadow-md border border-gray-200/30"
+              ? "bg-[#fafaf5] border-2 border-foreground shadow-[4px_4px_0px_0px_rgba(46,46,46,1)]"
+              : "bg-[#fafaf5] border-2 border-foreground shadow-[6px_6px_0px_0px_rgba(46,46,46,1)]"
           } mx-auto flex justify-between items-center py-3 p-5 md:py-4`}
         >
           {/* Logo */}
@@ -49,7 +49,7 @@ const Header: React.FC = () => {
             <div className={`relative transition-all duration-300 ${
               scrolled ? "w-8 h-8" : "w-10 h-10"
             }`}>
-              <div className="absolute inset-0rounded-xl opacity-20 group-hover:opacity-30 transition-opacity"></div>
+              <div className="absolute inset-0 opacity-20 group-hover:opacity-30 transition-opacity"></div>
               <Image
                 src={heroDetails.centerImageSrc}
                 width={scrolled ? 32 : 40}
@@ -62,7 +62,7 @@ const Header: React.FC = () => {
               />
             </div>
             <div className="flex flex-col">
-              <span className={`manrope font-bold text-foreground transition-all duration-300 ${
+              <span className={`font-bold text-foreground transition-all duration-300 ${
                 scrolled ? "text-lg" : "text-xl"
               }`}>
                 {siteDetails.siteName}
@@ -79,23 +79,18 @@ const Header: React.FC = () => {
               <li key={item.text}>
                 <Link
                   href={item.url}
-                  className="relative px-4 py-2 text-foreground font-semibold rounded-3xl hover:text-secondary transition-colors group"
+                  className="relative px-4 py-2 text-foreground font-semibold hover:text-secondary transition-colors group"
                 >
                   <span className="relative z-10">{item.text}</span>
-                  <div className="absolute inset-0 bg-secondary/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 </Link>
               </li>
             ))}
             <li>
               <Link
                 href="#cta"
-                className="relative ml-2 text-foreground font-semibold px-6 py-2.5 rounded-full overflow-hidden group"
+                className="relative ml-2 text-foreground font-bold px-6 py-2.5 border-2 border-foreground bg-primary hover:bg-secondary hover:text-white transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
               >
-                <span className="relative z-10 rounded-3xl ">
-                  Contact Us
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-primary rounded-3xl"></div>
-                <div className="absolute inset-0 bg-gradient-to-r from-secondary to-primary opacity-0 group-hover:opacity-100  transition-opacity duration-300 rounded-3xl"></div>
+                Contact Us
               </Link>
             </li>
           </ul>
@@ -105,7 +100,7 @@ const Header: React.FC = () => {
             <button
               onClick={toggleMenu}
               type="button"
-              className="relative bg-gradient-to-br from-primary to-primary text-foreground focus:outline-none rounded-xl w-10 h-10 flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-300 hover:scale-105"
+              className="relative bg-primary text-foreground focus:outline-none border-2 border-foreground w-10 h-10 flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 hover:translate-x-[-2px] hover:translate-y-[-2px]"
               aria-controls="mobile-menu"
               aria-expanded={isOpen}
             >
@@ -131,16 +126,16 @@ const Header: React.FC = () => {
         leaveTo="opacity-0 -translate-y-2"
       >
         <div id="mobile-menu" className="md:hidden mt-2 mx-4">
-          <div className="bg-white/95 backdrop-blur-md shadow-xl rounded-2xl border border-gray-200/50 overflow-hidden">
+          <div className="bg-[#fafaf5] border-2 border-foreground shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] overflow-hidden">
             <ul className="flex flex-col p-2">
               {menuItems.map((item, index) => (
                 <li key={item.text}>
                   <Link
                     href={item.url}
-                    className="flex items-center gap-3 text-foreground font-semibold px-4 py-3 rounded-xl "
+                    className="flex items-center gap-3 text-foreground font-semibold px-4 py-3 hover:bg-secondary/10 border-2 border-transparent hover:border-foreground transition-all"
                     onClick={toggleMenu}
                   >
-                    <div className="w-1.5 h-1.5 rounded-full "></div>
+                    <div className="w-1.5 h-1.5 bg-foreground"></div>
                     {item.text}
                   </Link>
                 </li>
@@ -148,7 +143,7 @@ const Header: React.FC = () => {
               <li className="mt-2 px-2 pb-2">
                 <Link
                   href="#cta"
-                  className="flex items-center justify-center text-foreground font-semibold bg-gradient-to-r from-primary to-primary px-5 py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 w-full"
+                  className="flex items-center justify-center text-foreground font-bold bg-primary border-2 border-foreground px-5 py-3 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 w-full"
                   onClick={toggleMenu}
                 >
                   Contact Us

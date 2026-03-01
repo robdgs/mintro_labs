@@ -3,13 +3,13 @@ import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { heroDetails } from "@/data/hero";
-import { 
-  FiBookOpen, 
-  FiUsers, 
-  FiAward, 
+import {
+  FiBookOpen,
+  FiUsers,
+  FiAward,
   FiTrendingUp,
   FiZap,
-  FiTarget
+  FiTarget,
 } from "react-icons/fi";
 import { BiSolidMedal } from "react-icons/bi";
 import { BsBarChartFill } from "react-icons/bs";
@@ -22,27 +22,18 @@ const Hero: React.FC = () => {
       id="hero"
       className="relative pt-[120px] pb-[60px] md:pt-[140px] md:pb-[80px] px-5 min-h-screen"
     >
-      {/* Background grid */}
-      <div className="absolute left-0 top-0 bottom-0 -z-10 w-full">
-        <div className="absolute inset-0 h-full w-full bg-hero-background bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)]"></div>
-      </div>
-
       <div className="max-w-7xl mx-auto">
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
-          
           {/* Main Title Card - Spans full width on mobile, 8 cols on desktop */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="md:col-span-8 bg-white/80 backdrop-blur-sm rounded-3xl p-8 md:p-12 shadow-lg border border-gray-200/50 relative overflow-hidden group"
+            className="md:col-span-8 bg-[#fafaf5] border-2 border-foreground p-8 md:p-12 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] relative overflow-hidden group"
           >
-            {/* Animated gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 opacity-100 transition-opacity duration-500"></div>
-            
             <div className="relative z-10">
-             {/* <motion.div
+              {/* <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.8 }}
@@ -110,10 +101,8 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
-            className="md:col-span-4 bg-[#fafafb] rounded-3xl p-8 shadow-lg flex items-center justify-center relative overflow-hidden group"
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-8 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] flex items-center justify-center relative overflow-hidden group"
           >
-
-            <div className="absolute inset-0 "></div>
             <Image
               src={"./images/3dlogo.png"}
               width={250}
@@ -131,10 +120,8 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.8 }}
-            className="md:col-span-4 bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-gray-200/50 hover:border-green-500/30 transition-all duration-300 group"
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
             <div className="flex items-center gap-4 mb-4">
               <div className="p-4 ">
                 <BsBarChartFill size={32} className="text-green-600" />
@@ -150,12 +137,9 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.9, duration: 0.8 }}
-            className="md:col-span-4 bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-gray-200/50 hover:border-green-500/30 transition-all duration-300 group"
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
             <div className="flex items-center gap-4 mb-4">
-              
               <div className="p-4 ">
                 <BiSolidMedal size={32} className="text-green-600" />
               </div>
@@ -170,10 +154,8 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.0, duration: 0.8 }}
-            className="md:col-span-4 bg-white/80 backdrop-blur-sm rounded-3xl p-6 shadow-lg border border-gray-200/50 hover:border-green-500/30 transition-all duration-300 group"
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 opacity-100 transition-opacity duration-500 rounded-3xl"></div>
-
             <div className="flex items-center gap-4 mb-4">
               <div className="p-4">
                 <PiGlobeFill size={32} className="text-green-600" />
@@ -253,7 +235,6 @@ const Hero: React.FC = () => {
               </p>
             </div>
           </motion.div> */}
-
         </div>
       </div>
     </section>

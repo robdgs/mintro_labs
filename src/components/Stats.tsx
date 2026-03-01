@@ -1,21 +1,24 @@
-import { stats } from "@/data/stats"
+import { stats } from "@/data/stats";
 
 const Stats: React.FC = () => {
-    return (
-        <section id="stats" className="py-10 lg:py-20 text-foreground">
-            <div className="grid sm:grid-cols-3 gap-8">
-                {stats.map(stat => (
-                    <div key={stat.title} className="text-center sm:text-left max-w-md sm:max-w-full mx-auto">
-                        <h3 className="mb-5 flex items-center gap-2 text-3xl font-semibold justify-center sm:justify-start">
-                            {stat.icon}
-                            {stat.title}
-                        </h3>
-                        <p className="text-foreground-accent">{stat.description}</p>
-                    </div>
-                ))}
-            </div>
-        </section>
-    )
-}
+  return (
+    <section id="stats" className="py-10 lg:py-20 text-foreground">
+      <div className="grid sm:grid-cols-3 gap-8">
+        {stats.map((stat) => (
+          <div
+            key={stat.title}
+            className="text-center sm:text-left max-w-md sm:max-w-full mx-auto border-2 border-foreground p-6 bg-[#fafaf5] shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200"
+          >
+            <h3 className="mb-5 flex items-center gap-2 text-3xl font-semibold justify-center sm:justify-start">
+              {stat.icon}
+              {stat.title}
+            </h3>
+            <p className="text-foreground-accent">{stat.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
 
-export default Stats
+export default Stats;

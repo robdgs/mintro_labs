@@ -8,7 +8,7 @@ const Partners: React.FC = () => {
       {partners.map((partner, index) => (
         <div 
           key={index} 
-          className="bg-white rounded-lg shadow-md p-6 max-w-sm w-full"
+          className="bg-[#fafaf5] border-2 border-foreground shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 p-6 max-w-sm w-full"
         >
           <div className="flex items-center mb-4">
             <Image
@@ -16,7 +16,7 @@ const Partners: React.FC = () => {
               alt={`${partner.name} avatar`}
               width={90}
               height={90}
-              className="rounded-full shadow-md"
+              className="border-2 border-foreground"
             />
             <div className="ml-4">
               <h3 className="text-lg font-semibold text-secondary">
