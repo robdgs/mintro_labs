@@ -131,7 +131,7 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
             className="relative group"
           >
             {/* Main image card */}
-            <div className="relative border-2 border-foreground overflow-hidden p-6 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)]">
+            <div className="relative bg-[#fafaf5] border-2 border-foreground overflow-hidden p-6 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)]">
               {/* Image with hover effect */}
               <div className="relative duration-500">
                 <Image
@@ -140,7 +140,6 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
                   width={300}
                   height={450}
                   quality={100}
-                  className="border-2 border-foreground"
                 />
               </div>
             </div>
