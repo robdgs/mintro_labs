@@ -39,9 +39,9 @@ const FAQ: React.FC = () => {
                         {faq.question}
                       </span>
                       {open ? (
-                        <BiMinus className="w-5 h-5 text-secondary border-2 border-foreground p-1" />
+                        <BiMinus className="w-8 h-8 text-secondary bg-[#fafaf5] border-2 border-foreground p-1" />
                       ) : (
-                        <BiPlus className="w-5 h-5 text-secondary border-2 border-foreground p-1" />
+                        <BiPlus className="w-8 h-8 text-secondary bg-[#fafaf5] border-2 border-foreground p-1" />
                       )}
                     </DisclosureButton>
                     <DisclosurePanel className="px-4 pt-4 pb-2 text-foreground-accent">
