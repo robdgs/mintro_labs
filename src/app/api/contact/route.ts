@@ -131,10 +131,7 @@ export async function POST(request: NextRequest) {
       `,
     });
 
-    return NextResponse.json(
-      { success: true },
-      { status: 200 },
-    );
+    return NextResponse.json({ success: true }, { status: 200 });
   } catch (error: any) {
     console.error("Error sending email:", error);
     return NextResponse.json(
