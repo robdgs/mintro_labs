@@ -6,10 +6,10 @@ const ManifestoPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background pt-40 pb-20">
       {/* Fixed Back to Home Button */}
-      <div className="fixed top-40 left-20 z-40">
+      <div className="fixed top-24 left-4 md:top-40 md:left-20 z-40">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-foreground font-semibold px-6 py-3 border-2 border-foreground bg-primary hover:bg-secondary hover:text-white transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
+          className="inline-flex items-center gap-2 text-foreground font-semibold px-4 py-2 md:px-6 md:py-3 border-2 border-foreground bg-primary hover:bg-secondary hover:text-white transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +17,7 @@ const ManifestoPage: React.FC = () => {
             viewBox="0 0 24 24"
             strokeWidth={2.5}
             stroke="currentColor"
-            className="w-5 h-5"
+            className="w-4 h-4 md:w-5 md:h-5"
           >
             <path
               strokeLinecap="round"
