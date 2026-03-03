@@ -17,13 +17,13 @@ const Hero: React.FC = () => {
   return (
     <section
       id="hero"
-      className="relative pt-[120px] pb-[60px] md:pt-[140px] md:pb-[80px] px-5 min-h-screen"
+      className="relative pt-[140px] pb-[50px] md:pt-[160px] md:pb-[60px] px-5 min-h-screen flex items-center"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-6xl mx-auto w-full">
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-5">
           {/* Main Title Card - Spans full width on mobile, 8 cols on desktop */}
-          <div className="md:col-span-8 bg-[#fafaf5] border-2 border-foreground p-8 md:p-12 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] relative overflow-hidden group fade-in-up">
+          <div className="md:col-span-8 bg-[#fafaf5] border-2 border-foreground p-6 md:p-8 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] relative overflow-hidden group fade-in-up">
             <div className="relative z-10">
               <h1
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4 fade-in-up"
@@ -66,13 +66,13 @@ const Hero: React.FC = () => {
 
           {/* Logo Card - 4 cols on desktop */}
           <div
-            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-8 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] flex items-center justify-center relative overflow-hidden group fade-in-scale"
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-8 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] flex items-center justify-center relative overflow-hidden group fade-in-scale"
             style={{ animationDelay: "0.3s" }}
           >
             <Image
               src={"./images/3dlogo.png"}
-              width={250}
-              height={250}
+              width={200}
+              height={200}
               quality={100}
               priority={true}
               unoptimized={true}
@@ -83,11 +83,11 @@ const Hero: React.FC = () => {
 
           {/* Stats Cards - 3 cards in a row */}
           <div
-            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group fade-in-up"
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-5 shadow-[3px_3px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group fade-in-up flex flex-col justify-between h-full"
             style={{ animationDelay: "0.4s" }}
           >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-4 ">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-3 ">
                 <BsBarChartFill size={32} className="text-green-600" />
               </div>
               <h3 className="text-3xl font-bold text-foreground">1500+</h3>
@@ -98,11 +98,11 @@ const Hero: React.FC = () => {
           </div>
 
           <div
-            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group fade-in-up"
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-5 shadow-[3px_3px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group fade-in-up flex flex-col justify-between h-full"
             style={{ animationDelay: "0.5s" }}
           >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-4 ">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-3 ">
                 <BiSolidMedal size={32} className="text-green-600" />
               </div>
               <h3 className="text-3xl font-bold text-foreground">1st</h3>
@@ -113,11 +113,11 @@ const Hero: React.FC = () => {
           </div>
 
           <div
-            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group fade-in-up"
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-5 shadow-[3px_3px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group fade-in-up flex flex-col justify-between h-full"
             style={{ animationDelay: "0.6s" }}
           >
-            <div className="flex items-center gap-4 mb-4">
-              <div className="p-4">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-3">
                 <PiGlobeFill size={32} className="text-green-600" />
               </div>
               <h3 className="text-3xl font-bold text-foreground">$9.39B</h3>

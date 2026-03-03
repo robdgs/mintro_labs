@@ -197,7 +197,7 @@ export default function PricingWithModals(): JSX.Element {
   const IconComponent: IconComponent | undefined = currentContent?.icon;
 
   return (
-    <div className="bg-[#fafaf5] px-2">
+    <div className="px-2">
       <style>{`
         @keyframes fadeIn {
           from {
@@ -213,15 +213,15 @@ export default function PricingWithModals(): JSX.Element {
           animation: fadeIn 0.3s ease-out;
         }
       `}</style>
-      <div className="max-w-7xl mx-auto text-foreground">
-        <div className="flex flex-col lg:flex-row gap-8 items-stretch">
+      <div className="max-w-6xl mx-auto text-foreground">
+        <div className="flex flex-col lg:flex-row gap-6 items-stretch">
           {tiers.map((tier) => (
             <div
               key={tier.name}
-              className="bg-[#fafaf5] border-2 border-foreground p-8 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 flex-1 text-foreground"
+              className="bg-[#fafaf5] border-2 border-foreground p-6 shadow-[3px_3px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 flex-1 text-foreground"
             >
               <h2
-                className={`text-4xl font-bold mb-6 ${
+                className={`text-4xl font-bold mb-5 ${
                   tier.highlight ? "text-secondary" : "text-foreground"
                 }`}
               >
@@ -229,35 +229,35 @@ export default function PricingWithModals(): JSX.Element {
               </h2>
               <button
                 onClick={() => openModal(tier.name)}
-                className={`w-full ${tier.buttonColor} border-2 border-foreground font-medium py-3 px-6 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 mb-8`}
+                className={`w-full ${tier.buttonColor} border-2 border-foreground font-medium py-2.5 px-5 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[3px_3px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 mb-6`}
               >
                 Learn more
               </button>
 
-              <div className="space-y-4">
-                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-4">
+              <div className="space-y-3">
+                <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide mb-3">
                   What is included:
                 </h3>
                 {tier.name === "Lab" && (
-                  <p className="text-gray-700 mb-3">
+                  <p className="text-gray-700 mb-2">
                     Everything in Workshop, plus:
                   </p>
                 )}
                 {tier.name === "Course" && (
-                  <p className="text-gray-700 mb-3">Everything in Lab, plus:</p>
+                  <p className="text-gray-700 mb-2">Everything in Lab, plus:</p>
                 )}
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {tier.features.map(
                     (feature, idx) =>
                       feature && (
                         <li
                           key={idx}
-                          className="flex items-start gap-3 text-gray-700"
+                          className="flex items-start gap-2 text-gray-700"
                         >
-                          <Check className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
+                          <Check className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5" />
                           <span>{feature}</span>
                         </li>
-                      )
+                      ),
                   )}
                 </ul>
               </div>
@@ -274,28 +274,28 @@ export default function PricingWithModals(): JSX.Element {
             <X className="w-6 h-6" />
           </button>
           {currentContent && IconComponent && (
-            <div className="p-8 md:p-12">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="bg-primary border-2 border-foreground p-4">
-                  <IconComponent className="w-8 h-8 text-foreground" />
+            <div className="p-6 md:p-8">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="bg-primary border-2 border-foreground p-3">
+                  <IconComponent className="w-6 h-6 text-foreground" />
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground">
                   {currentContent.title}
                 </h2>
               </div>
-              <p className="text-foreground-accent text-lg mb-8 leading-relaxed">
+              <p className="text-foreground-accent text-lg mb-6 leading-relaxed">
                 {currentContent.description}
               </p>
-              <div className="grid md:grid-cols-3 gap-4 mb-8">
-                <div className="bg-[#fafaf5] border-2 border-foreground p-4">
-                  <Calendar className="w-6 h-6 text-foreground mb-2" />
+              <div className="grid md:grid-cols-3 gap-3 mb-6">
+                <div className="bg-[#fafaf5] border-2 border-foreground p-3">
+                  <Calendar className="w-5 h-5 text-foreground mb-2" />
                   <div className="text-sm text-foreground-accent">Duration</div>
                   <div className="text-foreground font-semibold">
                     {currentContent.duration}
                   </div>
                 </div>
-                <div className="bg-[#fafaf5] border-2 border-foreground p-4">
-                  <Users className="w-6 h-6 text-foreground mb-2" />
+                <div className="bg-[#fafaf5] border-2 border-foreground p-3">
+                  <Users className="w-5 h-5 text-foreground mb-2" />
                   <div className="text-sm text-foreground-accent">
                     Participants
                   </div>
@@ -303,43 +303,43 @@ export default function PricingWithModals(): JSX.Element {
                     {currentContent.participants}
                   </div>
                 </div>
-                <div className="bg-[#fafaf5] border-2 border-foreground p-4">
-                  <BookOpen className="w-6 h-6 text-foreground mb-2" />
+                <div className="bg-[#fafaf5] border-2 border-foreground p-3">
+                  <BookOpen className="w-5 h-5 text-foreground mb-2" />
                   <div className="text-sm text-foreground-accent">Format</div>
                   <div className="text-foreground font-semibold">
                     {currentContent.format}
                   </div>
                 </div>
               </div>
-              <div className="mb-8">
-                <h4 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                  <span className="w-1 h-6 bg-foreground"></span>
+              <div className="mb-6">
+                <h4 className="text-xl font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <span className="w-1 h-5 bg-foreground"></span>
                   Key Benefits
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {currentContent.benefits.map((benefit, idx) => (
                     <li
                       key={idx}
-                      className="flex items-start gap-3 text-foreground-accent"
+                      className="flex items-start gap-2 text-foreground-accent"
                     >
-                      <Check className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5 border border-foreground" />
+                      <Check className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5 border border-foreground" />
                       <span>{benefit}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="mb-8">
-                <h4 className="text-xl font-semibold text-foreground mb-4 flex items-center gap-2">
-                  <span className="w-1 h-6 bg-foreground"></span>
+              <div className="mb-6">
+                <h4 className="text-xl font-semibold text-foreground mb-3 flex items-center gap-2">
+                  <span className="w-1 h-5 bg-foreground"></span>
                   What's Included
                 </h4>
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {currentContent.whatsIncluded.map((item, idx) => (
                     <li
                       key={idx}
-                      className="flex items-start gap-3 text-foreground-accent"
+                      className="flex items-start gap-2 text-foreground-accent"
                     >
-                      <Check className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5 border border-foreground" />
+                      <Check className="w-4 h-4 text-secondary flex-shrink-0 mt-0.5 border border-foreground" />
                       <span>{item}</span>
                     </li>
                   ))}
