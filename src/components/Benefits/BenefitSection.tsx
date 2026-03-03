@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import clsx from "clsx";
-import { motion, Variants } from "framer-motion";
 
 import SectionTitle from "../SectionTitle";
 import { IBenefit } from "@/types";
@@ -11,52 +10,12 @@ interface Props {
   imageAtRight?: boolean;
 }
 
-const containerVariants: Variants = {
-  offscreen: {
-    opacity: 0,
-    y: 100,
-  },
-  onscreen: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: "spring",
-      bounce: 0.2,
-      duration: 0.9,
-      delayChildren: 0.2,
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-export const childVariants = {
-  offscreen: {
-    opacity: 0,
-    x: -50,
-  },
-  onscreen: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      type: "spring",
-      bounce: 0.2,
-      duration: 1,
-    },
-  },
-};
-
 const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
   const { title, description, imageSrc, bullets } = benefit;
 
   return (
     <section className="benefit-section pt-20 relative text-foreground">
-      <motion.div
-        className="flex flex-wrap flex-col items-center justify-between gap-2 lg:flex-row lg:gap-20 lg:flex-nowrap mb-24"
-        variants={containerVariants}
-        initial="offscreen"
-        whileInView="onscreen"
-        viewport={{ once: true }}
-      >
+      <div className="flex flex-wrap flex-col items-center justify-between gap-2 lg:flex-row lg:gap-20 lg:flex-nowrap mb-24 fade-in-view">
         {/* Text Content */}
         <div
           className={clsx("flex flex-wrap items-center w-full lg:w-1/2", {
@@ -65,10 +24,7 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
         >
           <div className="w-full text-center lg:text-left">
             {/* Title Card */}
-            <motion.div
-              className="bg-[#fafaf5] border-2 border-foreground p-6 lg:p-8 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] mb-6"
-              variants={childVariants}
-            >
+            <div className="bg-[#fafaf5] border-2 border-foreground p-6 lg:p-8 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] mb-6 fade-in-left">
               <div className="flex items-start gap-3">
                 <div className="flex-shrink-0 w-1.5 h-12 bg-foreground"></div>
                 <div className="flex-1">
@@ -87,15 +43,15 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             {/* Bullets */}
             <div className="space-y-4">
               {bullets.map((item, index) => (
-                <motion.div
+                <div
                   key={index}
-                  className="group relative bg-[#fafaf5] border-2 border-foreground p-4 hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200"
-                  variants={childVariants}
+                  className="group relative bg-[#fafaf5] border-2 border-foreground p-4 hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 fade-in-left"
+                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <div className="flex items-start gap-3">
                     <div className="flex-shrink-0 p-2 bg-[#fafaf5] border-2 border-foreground group-hover:shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] transition-all duration-200">
@@ -111,7 +67,7 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>
@@ -123,13 +79,7 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
             "lg:order-2": imageAtRight,
           })}
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="relative group"
-          >
+          <div className="relative group fade-in-scale">
             {/* Main image card */}
             <div className="relative bg-[#fafaf5] border-2 border-foreground overflow-hidden p-6 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)]">
               {/* Image with hover effect */}
@@ -143,9 +93,9 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
                 />
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

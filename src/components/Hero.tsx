@@ -1,7 +1,5 @@
-"use client";
 import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 import { heroDetails } from "@/data/hero";
 import {
   FiBookOpen,
@@ -14,7 +12,6 @@ import {
 import { BiSolidMedal } from "react-icons/bi";
 import { BsBarChartFill } from "react-icons/bs";
 import { PiGlobeFill } from "react-icons/pi";
-import { dl } from "framer-motion/client";
 
 const Hero: React.FC = () => {
   return (
@@ -26,50 +23,21 @@ const Hero: React.FC = () => {
         {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
           {/* Main Title Card - Spans full width on mobile, 8 cols on desktop */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="md:col-span-8 bg-[#fafaf5] border-2 border-foreground p-8 md:p-12 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] relative overflow-hidden group"
-          >
+          <div className="md:col-span-8 bg-[#fafaf5] border-2 border-foreground p-8 md:p-12 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] relative overflow-hidden group fade-in-up">
             <div className="relative z-10">
-              {/* <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                className="flex items-center gap-3 mb-6"
-              >
-                <Image
-                  src={heroDetails.centerImageSrc}
-                  width={60}
-                  height={60}
-                  quality={100}
-                  priority={true}
-                  unoptimized={true}
-                  alt="Mintro Labs logo"
-                  className="relative z-10"
-                />
-                <div className="h-12 w-1 bg-foreground rounded-full"></div>
-                <span className="text-sm font-semibold text-foreground uppercase tracking-wider">Education Reimagined</span>
-              </motion.div> */}
-
-              <motion.h1
-                className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3, duration: 0.8 }}
+              <h1
+                className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4 fade-in-up"
+                style={{ animationDelay: "0.1s" }}
               >
                 Blockchain <br /> Made Simple
-              </motion.h1>
+              </h1>
 
-              <motion.h2
-                className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground-accent mb-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
+              <h2
+                className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground-accent mb-8 fade-in-up"
+                style={{ animationDelay: "0.2s" }}
               >
                 From dialogue to discovery
-              </motion.h2>
+              </h2>
 
               {/* CTA Buttons 
               <motion.div
@@ -92,16 +60,14 @@ const Hero: React.FC = () => {
                   <span className="relative z-10">Join the Pilot</span>
                   <div className="absolute inset-0 bg-secondary/80 transform scale-x-0 group-hover/btn:scale-x-100 transition-transform origin-left duration-300"></div>
                 </a>
-              </motion.div> */}
+              </div> */}
             </div>
-          </motion.div>
+          </div>
 
           {/* Logo Card - 4 cols on desktop */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-8 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] flex items-center justify-center relative overflow-hidden group"
+          <div
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-8 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] flex items-center justify-center relative overflow-hidden group fade-in-scale"
+            style={{ animationDelay: "0.3s" }}
           >
             <Image
               src={"./images/3dlogo.png"}
@@ -113,14 +79,12 @@ const Hero: React.FC = () => {
               alt="Mintro Labs arrow"
               className="relative z-10 group-hover:scale-110 transition-transform duration-500"
             />
-          </motion.div>
+          </div>
 
           {/* Stats Cards - 3 cards in a row */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.8 }}
-            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group"
+          <div
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group fade-in-up"
+            style={{ animationDelay: "0.4s" }}
           >
             <div className="flex items-center gap-4 mb-4">
               <div className="p-4 ">
@@ -131,13 +95,11 @@ const Hero: React.FC = () => {
             <p className="text-foreground-accent leading-relaxed">
               High Schools willing to increase their STEM offerings
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.8 }}
-            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group"
+          <div
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group fade-in-up"
+            style={{ animationDelay: "0.5s" }}
           >
             <div className="flex items-center gap-4 mb-4">
               <div className="p-4 ">
@@ -148,13 +110,11 @@ const Hero: React.FC = () => {
             <p className="text-foreground-accent leading-relaxed">
               Scalable and trustful Italian Web3 education provider
             </p>
-          </motion.div>
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.0, duration: 0.8 }}
-            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group"
+          <div
+            className="md:col-span-4 bg-[#fafaf5] border-2 border-foreground p-6 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 group fade-in-up"
+            style={{ animationDelay: "0.6s" }}
           >
             <div className="flex items-center gap-4 mb-4">
               <div className="p-4">
@@ -165,7 +125,7 @@ const Hero: React.FC = () => {
             <p className="text-foreground-accent leading-relaxed">
               Web3 Education market potential by 2033
             </p>
-          </motion.div>
+          </div>
 
           {/* Feature Cards 
           <motion.div

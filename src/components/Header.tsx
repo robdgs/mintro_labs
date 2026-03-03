@@ -10,10 +10,12 @@ import { heroDetails } from "@/data/hero";
 import Container from "./Container";
 import { siteDetails } from "@/data/siteDetails";
 import { menuItems } from "@/data/menuItems";
+import ContactModal from "./ContactModal";
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -88,12 +90,12 @@ const Header: React.FC = () => {
               </li>
             ))}
             <li>
-              <Link
-                href="#cta"
+              <button
+                onClick={() => setIsContactModalOpen(true)}
                 className="relative ml-2 text-foreground font-bold px-6 py-2.5 border-2 border-foreground bg-primary hover:bg-secondary hover:text-white transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
               >
                 Contact Us
-              </Link>
+              </button>
             </li>
           </ul>
 
@@ -143,18 +145,25 @@ const Header: React.FC = () => {
                 </li>
               ))}
               <li className="mt-2 px-2 pb-2">
-                <Link
-                  href="#cta"
+                <button
+                  onClick={() => {
+                    setIsContactModalOpen(true);
+                    toggleMenu();
+                  }}
                   className="flex items-center justify-center text-foreground font-bold bg-primary border-2 border-foreground px-5 py-3 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 w-full"
-                  onClick={toggleMenu}
                 >
                   Contact Us
-                </Link>
+                </button>
               </li>
             </ul>
           </div>
         </div>
       </Transition>
+
+      <ContactModal
+        isOpen={isContactModalOpen}
+        onClose={() => setIsContactModalOpen(false)}
+      />
     </header>
   );
 };
