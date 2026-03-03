@@ -165,7 +165,7 @@ const ManifestoPage: React.FC = () => {
           </div>
 
           {/* Conclusion */}
-          <div className="mt-16 p-8 bg-foreground text-background border-2 border-foreground shadow-[8px_8px_0px_0px_rgba(46,46,46,1)]">
+          <div className="mt-16 p-8 bg-secondary text-white border-2 border-foreground shadow-[8px_8px_0px_0px_rgba(46,46,46,1)]">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
               Our Commitment
             </h2>
