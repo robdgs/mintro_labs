@@ -24,19 +24,37 @@ const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus("idle");
 
-    // Simula invio form - sostituire con la logica reale
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    setSubmitStatus("success");
-    setIsSubmitting(false);
+      const data = await response.json();
 
-    // Reset form dopo 2 secondi
-    setTimeout(() => {
-      setFormData({ name: "", email: "", company: "", message: "" });
-      setSubmitStatus("idle");
-      onClose();
-    }, 2000);
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to send message");
+      }
+
+      setSubmitStatus("success");
+
+      // Reset form dopo 2 secondi
+      setTimeout(() => {
+        setFormData({ name: "", email: "", company: "", message: "" });
+        setSubmitStatus("idle");
+        onClose();
+      }, 2000);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (

@@ -12,28 +12,34 @@ const PartnerDisplay: React.FC = () => {
       height: 288,
     },
     {
-      src: "/images/thegraphlogo.svg",
-      alt: "The Graph logo",
-      width: 288,
-      height: 288,
-    },
-    {
-      src: "/images/ethRomeLogo.svg",
-      alt: "Urbe logo",
-      width: 158,
-      height: 158,
-    },
-    {
       src: "/images/fileverse-logo.svg",
       alt: "Fileverse logo",
       width: 160,
       height: 160,
     },
     {
+      src: "/images/thegraphlogo.svg",
+      alt: "The Graph logo",
+      width: 288,
+      height: 288,
+    },
+    {
       src: "/images/42_Logo.svg.png",
       alt: "42 logo",
       width: 160,
       height: 160,
+    },
+        {
+      src: "/images/ethRomeLogo.svg",
+      alt: "Urbe logo",
+      width: 158,
+      height: 158,
+    },
+    {
+      src: "/images/urbe-eth-black.png",
+      alt: "Urbe logo",
+      width: 288,
+      height: 288,
     },
   ];
 
