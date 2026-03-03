@@ -54,18 +54,15 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
                     className="group relative bg-[#fafaf5] border-2 border-foreground p-3.5 hover:shadow-[3px_3px_0px_0px_rgba(46,46,46,1)] transition-all duration-200 fade-in-left"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    <div className="flex items-start gap-3">
+                    <div className="flex items-center gap-3">
                       <div className="flex-shrink-0 p-1.5 bg-[#fafaf5] border-2 border-foreground group-hover:shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] transition-all duration-200">
                         <div className="text-secondary">{item.icon}</div>
                       </div>
 
                       <div className="flex-1 text-left">
-                        <h4 className="text-lg font-semibold text-foreground mb-1 group-hover:text-secondary transition-colors">
+                        <h4 className="text-lg font-semibold text-foreground group-hover:text-secondary transition-colors">
                           {item.title}
                         </h4>
-                        <p className="text-base text-foreground-accent">
-                          {item.description}
-                        </p>
                       </div>
                     </div>
                   </div>
@@ -91,8 +88,8 @@ const BenefitSection: React.FC<Props> = ({ benefit, imageAtRight }: Props) => {
                   <Image
                     src={imageSrc}
                     alt={title}
-                    width={300}
-                    height={450}
+                    width={250}
+                    height={375}
                     quality={100}
                   />
                 </div>
