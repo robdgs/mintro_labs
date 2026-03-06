@@ -5,7 +5,8 @@ import jwt from "jsonwebtoken";
 
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const ADMIN_PASSWORD_HASH = process.env.ADMIN_PASSWORD_HASH;
-const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-change-in-production";
+const JWT_SECRET =
+  process.env.JWT_SECRET || "fallback-secret-change-in-production";
 
 export async function POST(request: Request) {
   try {
@@ -35,11 +36,9 @@ export async function POST(request: Request) {
     }
 
     // Crea JWT token
-    const token = jwt.sign(
-      { username, role: "admin" },
-      JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ username, role: "admin" }, JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
     // Imposta cookie con il token
     cookies().set("admin_token", token, {

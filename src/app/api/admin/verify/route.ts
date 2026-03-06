@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 
-const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-change-in-production";
+const JWT_SECRET =
+  process.env.JWT_SECRET || "fallback-secret-change-in-production";
 
 export async function GET() {
   const token = cookies().get("admin_token");
@@ -12,8 +13,11 @@ export async function GET() {
   }
 
   try {
-    const decoded = jwt.verify(token.value, JWT_SECRET) as { username: string; role: string };
-    
+    const decoded = jwt.verify(token.value, JWT_SECRET) as {
+      username: string;
+      role: string;
+    };
+
     if (decoded.username && decoded.role === "admin") {
       return NextResponse.json({ authenticated: true }, { status: 200 });
     }
