@@ -22,7 +22,7 @@ const PlatformPage: React.FC = () => {
   const [isArticleModalOpen, setIsArticleModalOpen] = useState(false);
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
-  
+
   // Stato per i dati dal database
   const [courses, setCourses] = useState<ICourse[]>([]);
   const [articles, setArticles] = useState<IArticle[]>([]);
@@ -141,8 +141,8 @@ const PlatformPage: React.FC = () => {
                     <h2 className="text-center mb-4">Explore Our Courses</h2>
                   </SectionTitle>
                   <p className="text-center text-foreground/70 mb-8">
-                    Choose from a variety of courses designed to help you master new
-                    skills
+                    Choose from a variety of courses designed to help you master
+                    new skills
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
                     {courses.map((course) => (

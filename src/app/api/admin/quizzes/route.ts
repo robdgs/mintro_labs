@@ -46,7 +46,7 @@ export async function GET() {
     `;
 
     const formattedQuizzes = quizzes.map((quiz: any) => {
-      const quizQuestions = Array.isArray(quiz.questions) 
+      const quizQuestions = Array.isArray(quiz.questions)
         ? quiz.questions.map((q: any) => ({
             ...q,
             correctAnswer: parseInt(q.correctAnswer, 10), // Converti stringa in numero

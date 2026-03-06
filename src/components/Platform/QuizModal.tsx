@@ -18,7 +18,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
   const [score, setScore] = useState(0);
 
   if (!quiz) return null;
-  
+
   const hasQuestions = quiz.quizQuestions && quiz.quizQuestions.length > 0;
 
   const handleClose = () => {
@@ -45,9 +45,11 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
         const userAnswer = selectedAnswers[index];
         const correctAnswer = q.correctAnswer;
         const isCorrect = userAnswer === correctAnswer;
-        
-        console.log(`Q${index + 1}: User: ${userAnswer} (${typeof userAnswer}), Correct: ${correctAnswer} (${typeof correctAnswer}), Match: ${isCorrect}`);
-        
+
+        console.log(
+          `Q${index + 1}: User: ${userAnswer} (${typeof userAnswer}), Correct: ${correctAnswer} (${typeof correctAnswer}), Match: ${isCorrect}`,
+        );
+
         if (isCorrect) {
           correctCount++;
         }
@@ -71,7 +73,9 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
   };
 
   const currentQ = hasQuestions ? quiz.quizQuestions![currentQuestion] : null;
-  const progress = hasQuestions ? ((currentQuestion + 1) / quiz.quizQuestions!.length) * 100 : 0;
+  const progress = hasQuestions
+    ? ((currentQuestion + 1) / quiz.quizQuestions!.length) * 100
+    : 0;
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
