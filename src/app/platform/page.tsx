@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "@/components/Container";
 import SectionTitle from "@/components/SectionTitle";
 import CourseCard from "@/components/Platform/CourseCard";
@@ -9,7 +9,6 @@ import QuizCard from "@/components/Platform/QuizCard";
 import ArticleModal from "@/components/Platform/ArticleModal";
 import QuizModal from "@/components/Platform/QuizModal";
 import CourseModal from "@/components/Platform/CourseModal";
-import { courses, articles, quizzes } from "@/data/platform";
 import { IArticle, IQuiz, ICourse } from "@/types";
 import { HiAcademicCap, HiDocumentText, HiSparkles } from "react-icons/hi2";
 
@@ -23,6 +22,42 @@ const PlatformPage: React.FC = () => {
   const [isArticleModalOpen, setIsArticleModalOpen] = useState(false);
   const [isQuizModalOpen, setIsQuizModalOpen] = useState(false);
   const [isCourseModalOpen, setIsCourseModalOpen] = useState(false);
+  
+  // Stato per i dati dal database
+  const [courses, setCourses] = useState<ICourse[]>([]);
+  const [articles, setArticles] = useState<IArticle[]>([]);
+  const [quizzes, setQuizzes] = useState<IQuiz[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // Carica i dati dal database
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true);
+      try {
+        const [coursesRes, articlesRes, quizzesRes] = await Promise.all([
+          fetch("/api/admin/courses"),
+          fetch("/api/admin/articles"),
+          fetch("/api/admin/quizzes"),
+        ]);
+
+        const [coursesData, articlesData, quizzesData] = await Promise.all([
+          coursesRes.json(),
+          articlesRes.json(),
+          quizzesRes.json(),
+        ]);
+
+        if (coursesData.success) setCourses(coursesData.courses || []);
+        if (articlesData.success) setArticles(articlesData.articles || []);
+        if (quizzesData.success) setQuizzes(quizzesData.quizzes || []);
+      } catch (error) {
+        console.error("Error loading platform data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, []);
 
   const handleArticleClick = (article: IArticle) => {
     setSelectedArticle(article);
@@ -90,82 +125,107 @@ const PlatformPage: React.FC = () => {
           </button>
         </div>
 
-        {/* Content Grid */}
-        <div className="mb-12">
-          {activeTab === "courses" && (
-            <div>
-              <SectionTitle>
-                <h2 className="text-center mb-4">Explore Our Courses</h2>
-              </SectionTitle>
-              <p className="text-center text-foreground/70 mb-8">
-                Choose from a variety of courses designed to help you master new
-                skills
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                {courses.map((course) => (
-                  <div
-                    key={course.id}
-                    onClick={() => handleCourseClick(course)}
-                  >
-                    <CourseCard course={course} />
+        {/* Loading State */}
+        {loading ? (
+          <div className="text-center py-20">
+            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-foreground border-t-transparent"></div>
+            <p className="mt-4 text-foreground/70">Loading...</p>
+          </div>
+        ) : (
+          <>
+            {/* Content Grid */}
+            <div className="mb-12">
+              {activeTab === "courses" && (
+                <div>
+                  <SectionTitle>
+                    <h2 className="text-center mb-4">Explore Our Courses</h2>
+                  </SectionTitle>
+                  <p className="text-center text-foreground/70 mb-8">
+                    Choose from a variety of courses designed to help you master new
+                    skills
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    {courses.map((course) => (
+                      <div
+                        key={course.id}
+                        onClick={() => handleCourseClick(course)}
+                      >
+                        <CourseCard course={course} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                  {courses.length === 0 && (
+                    <p className="text-center text-foreground/50 py-10">
+                      No courses available yet.
+                    </p>
+                  )}
+                </div>
+              )}
 
-          {activeTab === "articles" && (
-            <div>
-              <SectionTitle>
-                <h2 className="text-center mb-4">Read Our Articles</h2>
-              </SectionTitle>
-              <p className="text-center text-foreground/70 mb-8">
-                Stay updated with insights, tips, and industry trends
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                {articles.map((article) => (
-                  <div
-                    key={article.id}
-                    onClick={() => handleArticleClick(article)}
-                  >
-                    <ArticleCard article={article} />
+              {activeTab === "articles" && (
+                <div>
+                  <SectionTitle>
+                    <h2 className="text-center mb-4">Read Our Articles</h2>
+                  </SectionTitle>
+                  <p className="text-center text-foreground/70 mb-8">
+                    Stay updated with insights, tips, and industry trends
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    {articles.map((article) => (
+                      <div
+                        key={article.id}
+                        onClick={() => handleArticleClick(article)}
+                      >
+                        <ArticleCard article={article} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
+                  {articles.length === 0 && (
+                    <p className="text-center text-foreground/50 py-10">
+                      No articles available yet.
+                    </p>
+                  )}
+                </div>
+              )}
 
-          {activeTab === "quizzes" && (
-            <div>
-              <SectionTitle>
-                <h2 className="text-center mb-4">Test Your Knowledge</h2>
-              </SectionTitle>
-              <p className="text-center text-foreground/70 mb-8">
-                Challenge yourself with quizzes to reinforce your learning
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                {quizzes.map((quiz) => (
-                  <div key={quiz.id} onClick={() => handleQuizClick(quiz)}>
-                    <QuizCard quiz={quiz} />
+              {activeTab === "quizzes" && (
+                <div>
+                  <SectionTitle>
+                    <h2 className="text-center mb-4">Test Your Knowledge</h2>
+                  </SectionTitle>
+                  <p className="text-center text-foreground/70 mb-8">
+                    Challenge yourself with quizzes to reinforce your learning
+                  </p>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                    {quizzes.map((quiz) => (
+                      <div key={quiz.id} onClick={() => handleQuizClick(quiz)}>
+                        <QuizCard quiz={quiz} />
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                  {quizzes.length === 0 && (
+                    <p className="text-center text-foreground/50 py-10">
+                      No quizzes available yet.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        {/* CTA Section */}
-        <div className="text-center bg-primary border-2 border-foreground shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] p-12 mt-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Ready to Start Learning?
-          </h2>
-          <p className="text-lg text-foreground/70 mb-8">
-            Join thousands of learners and start your journey today.
-          </p>
-          <button className="bg-secondary text-white font-bold px-8 py-4 border-2 border-foreground hover:bg-foreground transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]">
-            Get Started Now
-          </button>
-        </div>
+            {/* CTA Section */}
+            <div className="text-center bg-primary border-2 border-foreground shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] p-12 mt-16">
+              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Ready to Start Learning?
+              </h2>
+              <p className="text-lg text-foreground/70 mb-8">
+                Join thousands of learners and start your journey today.
+              </p>
+              <button className="bg-secondary text-white font-bold px-8 py-4 border-2 border-foreground hover:bg-foreground transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]">
+                Get Started Now
+              </button>
+            </div>
+          </>
+        )}
       </Container>
 
       {/* Modals */}

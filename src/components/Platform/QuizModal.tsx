@@ -17,7 +17,9 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
   const [showResults, setShowResults] = useState(false);
   const [score, setScore] = useState(0);
 
-  if (!quiz || !quiz.quizQuestions) return null;
+  if (!quiz) return null;
+  
+  const hasQuestions = quiz.quizQuestions && quiz.quizQuestions.length > 0;
 
   const handleClose = () => {
     setCurrentQuestion(0);
@@ -40,7 +42,13 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
       // Calculate score
       let correctCount = 0;
       quiz.quizQuestions?.forEach((q, index) => {
-        if (selectedAnswers[index] === q.correctAnswer) {
+        const userAnswer = selectedAnswers[index];
+        const correctAnswer = q.correctAnswer;
+        const isCorrect = userAnswer === correctAnswer;
+        
+        console.log(`Q${index + 1}: User: ${userAnswer} (${typeof userAnswer}), Correct: ${correctAnswer} (${typeof correctAnswer}), Match: ${isCorrect}`);
+        
+        if (isCorrect) {
           correctCount++;
         }
       });
@@ -62,8 +70,8 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
     setScore(0);
   };
 
-  const currentQ = quiz.quizQuestions[currentQuestion];
-  const progress = ((currentQuestion + 1) / quiz.quizQuestions.length) * 100;
+  const currentQ = hasQuestions ? quiz.quizQuestions![currentQuestion] : null;
+  const progress = hasQuestions ? ((currentQuestion + 1) / quiz.quizQuestions!.length) * 100 : 0;
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -109,14 +117,26 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
                   </Dialog.Title>
                 </div>
 
-                {!showResults ? (
+                {!hasQuestions ? (
+                  <div className="p-12 text-center">
+                    <p className="text-foreground/70 text-lg mb-4">
+                      This quiz doesn't have any questions yet.
+                    </p>
+                    <button
+                      onClick={handleClose}
+                      className="bg-secondary text-white font-bold px-6 py-3 border-2 border-foreground hover:bg-foreground transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)]"
+                    >
+                      Close
+                    </button>
+                  </div>
+                ) : !showResults ? (
                   <>
                     {/* Progress Bar */}
                     <div className="px-6 pt-6">
                       <div className="flex justify-between text-sm text-foreground/70 mb-2">
                         <span>
                           Question {currentQuestion + 1} of{" "}
-                          {quiz.quizQuestions.length}
+                          {quiz.quizQuestions!.length}
                         </span>
                         <span>{Math.round(progress)}% Complete</span>
                       </div>
@@ -131,11 +151,11 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
                     {/* Question */}
                     <div className="p-6">
                       <h3 className="text-xl font-bold text-foreground mb-6">
-                        {currentQ.question}
+                        {currentQ!.question}
                       </h3>
 
                       <div className="space-y-3">
-                        {currentQ.options.map((option, index) => (
+                        {currentQ!.options.map((option, index) => (
                           <button
                             key={index}
                             onClick={() => handleAnswerSelect(index)}
@@ -171,7 +191,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
                           }
                           className="px-6 py-2 font-bold text-white border-2 border-foreground bg-secondary hover:bg-foreground disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
                         >
-                          {currentQuestion === quiz.quizQuestions.length - 1
+                          {currentQuestion === quiz.quizQuestions!.length - 1
                             ? "Finish"
                             : "Next"}
                         </button>
@@ -188,11 +208,11 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
                         </h3>
                         <div className="inline-block bg-primary border-4 border-foreground p-6 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)]">
                           <p className="text-5xl font-bold text-foreground mb-2">
-                            {score}/{quiz.quizQuestions.length}
+                            {score}/{quiz.quizQuestions!.length}
                           </p>
                           <p className="text-lg text-foreground/70">
                             {Math.round(
-                              (score / quiz.quizQuestions.length) * 100,
+                              (score / quiz.quizQuestions!.length) * 100,
                             )}
                             % Correct
                           </p>
@@ -201,7 +221,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
 
                       {/* Answer Review */}
                       <div className="space-y-4 max-h-96 overflow-y-auto">
-                        {quiz.quizQuestions.map((q, index) => {
+                        {quiz.quizQuestions!.map((q, index) => {
                           const isCorrect =
                             selectedAnswers[index] === q.correctAnswer;
                           return (

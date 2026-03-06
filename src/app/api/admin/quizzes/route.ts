@@ -45,16 +45,25 @@ export async function GET() {
       ORDER BY q.id
     `;
 
-    const formattedQuizzes = quizzes.map((quiz: any) => ({
-      id: quiz.id.toString(),
-      title: quiz.title,
-      description: quiz.description,
-      category: quiz.category,
-      difficulty: quiz.difficulty,
-      duration: quiz.duration,
-      passingScore: quiz.passing_score,
-      questions: quiz.questions,
-    }));
+    const formattedQuizzes = quizzes.map((quiz: any) => {
+      const quizQuestions = Array.isArray(quiz.questions) 
+        ? quiz.questions.map((q: any) => ({
+            ...q,
+            correctAnswer: parseInt(q.correctAnswer, 10), // Converti stringa in numero
+          }))
+        : [];
+      return {
+        id: quiz.id.toString(),
+        title: quiz.title,
+        description: quiz.description,
+        category: quiz.category,
+        difficulty: quiz.difficulty,
+        duration: quiz.duration,
+        passingScore: quiz.passing_score,
+        questions: quizQuestions.length, // Numero di domande
+        quizQuestions: quizQuestions, // Array delle domande
+      };
+    });
 
     return NextResponse.json({
       success: true,
