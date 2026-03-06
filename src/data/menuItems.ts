@@ -14,6 +14,10 @@ export const menuItems: IMenuItem[] = [
     url: "/#Team",
   },
   {
+    text: "Platform",
+    url: "/platform",
+  },
+  {
     text: "Manifesto",
     url: "/manifesto",
   },
