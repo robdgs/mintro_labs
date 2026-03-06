@@ -10,6 +10,7 @@ import Stats from "@/components/Stats";
 import CTA from "@/components/CTA";
 import Descriptor from "@/components/Descriptor";
 import PartnerDisplay from "@/components/PartnerDisplay";
+import PlatformBanner from "@/components/PlatformBanner";
 
 const HomePage: React.FC = () => {
   return (
@@ -19,6 +20,8 @@ const HomePage: React.FC = () => {
       {/* <Logos /> */}
       <Container>
         <Benefits />
+
+        <PlatformBanner />
 
         <Section
           id="Products"

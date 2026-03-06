@@ -43,7 +43,7 @@ const PlatformPage: React.FC = () => {
     <div className="min-h-screen pt-32 pb-20">
       <Container>
         {/* Hero Section */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-16 mt-8">
           <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6">
             Welcome to Our Learning Platform
           </h1>

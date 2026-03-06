@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import fs from "fs/promises";
-import path from "path";
+import { sql } from "@/lib/db";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET =
+  process.env.JWT_SECRET || "fallback-secret-change-in-production";
 
 // Verifica se l'utente è admin
 function isAuthenticated() {
@@ -9,11 +12,11 @@ function isAuthenticated() {
   if (!token) return false;
 
   try {
-    const decoded = Buffer.from(token.value, "base64").toString();
-    const parts = decoded.split(":");
-    return (
-      parts.length === 3 && parts[0] === (process.env.ADMIN_USERNAME || "admin")
-    );
+    const decoded = jwt.verify(token.value, JWT_SECRET) as {
+      username: string;
+      role: string;
+    };
+    return decoded.username && decoded.role === "admin";
   } catch {
     return false;
   }
@@ -22,15 +25,47 @@ function isAuthenticated() {
 // GET - Recupera tutti i corsi
 export async function GET() {
   try {
-    // Importa direttamente i dati
-    const { courses } = await import("@/data/platform");
+    const courses = await sql`
+      SELECT c.*,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'id', cm.module_id,
+              'title', cm.title,
+              'description', cm.description,
+              'duration', cm.duration,
+              'order', cm."order",
+              'content', cm.content
+            ) ORDER BY cm."order"
+          ) FILTER (WHERE cm.id IS NOT NULL),
+          '[]'
+        ) as modules
+      FROM courses c
+      LEFT JOIN course_modules cm ON c.id = cm.course_id
+      GROUP BY c.id
+      ORDER BY c.id
+    `;
+
+    // Trasforma i dati nel formato atteso
+    const formattedCourses = courses.map((course: any) => ({
+      id: course.id.toString(),
+      title: course.title,
+      description: course.description,
+      duration: course.duration,
+      level: course.level,
+      thumbnail: course.thumbnail,
+      category: course.category,
+      instructor: course.instructor,
+      students: course.students,
+      modules: course.modules,
+    }));
 
     return NextResponse.json({
       success: true,
-      courses: courses,
+      courses: formattedCourses,
     });
   } catch (error) {
-    // Error loading courses
+    console.error("Error loading courses:", error);
     return NextResponse.json(
       { success: false, message: "Error reading courses" },
       { status: 500 },
@@ -49,45 +84,41 @@ export async function POST(request: Request) {
 
   try {
     const courseData = await request.json();
-    const filePath = path.join(process.cwd(), "src/data/platform.ts");
-    const fileContent = await fs.readFile(filePath, "utf-8");
 
-    // Importa i corsi attuali
-    const { courses } = await import("@/data/platform");
+    // Inserisci il nuovo corso
+    const result = await sql`
+      INSERT INTO courses (title, description, duration, level, thumbnail, category, instructor, students)
+      VALUES (${courseData.title}, ${courseData.description}, ${courseData.duration}, 
+              ${courseData.level}, ${courseData.thumbnail || null}, ${courseData.category || null},
+              ${courseData.instructor || null}, ${courseData.students || 0})
+      RETURNING *
+    `;
 
-    // Genera nuovo ID
-    const ids = courses.map((c) => parseInt(c.id)).filter((id) => !isNaN(id));
-    const newId = (Math.max(...ids, 0) + 1).toString();
+    const newCourse = result[0];
 
-    const newCourse = {
-      id: newId,
-      ...courseData,
-      thumbnail: courseData.thumbnail || undefined,
-      category: courseData.category || undefined,
-      modules: courseData.modules || [],
-    };
-
-    // Aggiungi il nuovo corso
-    const updatedCourses = [...courses, newCourse];
-
-    // Ricostruisci il file
-    const coursesString = JSON.stringify(updatedCourses, null, 2);
-    const articlesMatch = fileContent.match(/(export const articles:[\s\S]*)/);
-
-    const newContent = `import { ICourse, IArticle, IQuiz } from "@/types";
-
-export const courses: ICourse[] = ${coursesString};
-
-${articlesMatch ? articlesMatch[0] : ""}`;
-
-    await fs.writeFile(filePath, newContent, "utf-8");
+    // Inserisci i moduli se presenti
+    if (courseData.modules && courseData.modules.length > 0) {
+      for (const module of courseData.modules) {
+        await sql`
+          INSERT INTO course_modules (course_id, module_id, title, description, duration, "order", content)
+          VALUES (${newCourse.id}, ${module.id}, ${module.title}, ${module.description},
+                  ${module.duration}, ${module.order}, ${module.content})
+        `;
+      }
+    }
 
     return NextResponse.json(
-      { success: true, course: newCourse },
+      {
+        success: true,
+        course: {
+          id: newCourse.id.toString(),
+          ...courseData,
+        },
+      },
       { status: 201 },
     );
   } catch (error) {
-    // Create error
+    console.error("Error creating course:", error);
     return NextResponse.json(
       { success: false, message: "Error creating course" },
       { status: 500 },
@@ -106,46 +137,58 @@ export async function PUT(request: Request) {
 
   try {
     const courseData = await request.json();
-    const filePath = path.join(process.cwd(), "src/data/platform.ts");
-    const fileContent = await fs.readFile(filePath, "utf-8");
 
-    // Importa i corsi attuali
-    const { courses } = await import("@/data/platform");
+    if (!courseData.id) {
+      return NextResponse.json(
+        { success: false, message: "Course ID required" },
+        { status: 400 },
+      );
+    }
 
-    // Trova e aggiorna il corso
-    const courseIndex = courses.findIndex((c) => c.id === courseData.id);
+    // Aggiorna il corso
+    const result = await sql`
+      UPDATE courses 
+      SET title = ${courseData.title},
+          description = ${courseData.description},
+          duration = ${courseData.duration},
+          level = ${courseData.level},
+          thumbnail = ${courseData.thumbnail || null},
+          category = ${courseData.category || null},
+          instructor = ${courseData.instructor || null},
+          students = ${courseData.students || 0},
+          updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${parseInt(courseData.id)}
+      RETURNING *
+    `;
 
-    if (courseIndex === -1) {
+    if (result.length === 0) {
       return NextResponse.json(
         { success: false, message: "Course not found" },
         { status: 404 },
       );
     }
 
-    const updatedCourses = [...courses];
-    updatedCourses[courseIndex] = {
-      ...courses[courseIndex],
-      ...courseData,
-    };
+    // Aggiorna i moduli se presenti
+    if (courseData.modules) {
+      // Elimina i moduli esistenti
+      await sql`DELETE FROM course_modules WHERE course_id = ${parseInt(courseData.id)}`;
 
-    // Ricostruisci il file
-    const coursesString = JSON.stringify(updatedCourses, null, 2);
-    const articlesMatch = fileContent.match(/(export const articles:[\s\S]*)/);
-
-    const newContent = `import { ICourse, IArticle, IQuiz } from "@/types";
-
-export const courses: ICourse[] = ${coursesString};
-
-${articlesMatch ? articlesMatch[0] : ""}`;
-
-    await fs.writeFile(filePath, newContent, "utf-8");
+      // Inserisci i nuovi moduli
+      for (const module of courseData.modules) {
+        await sql`
+          INSERT INTO course_modules (course_id, module_id, title, description, duration, "order", content)
+          VALUES (${parseInt(courseData.id)}, ${module.id}, ${module.title}, ${module.description},
+                  ${module.duration}, ${module.order}, ${module.content})
+        `;
+      }
+    }
 
     return NextResponse.json(
       { success: true, message: "Course updated" },
       { status: 200 },
     );
   } catch (error) {
-    // Update error
+    console.error("Error updating course:", error);
     return NextResponse.json(
       { success: false, message: "Error updating course" },
       { status: 500 },
@@ -172,40 +215,25 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const filePath = path.join(process.cwd(), "src/data/platform.ts");
-    const fileContent = await fs.readFile(filePath, "utf-8");
+    // Elimina il corso (i moduli verranno eliminati automaticamente per CASCADE)
+    const result = await sql`
+      DELETE FROM courses WHERE id = ${parseInt(id)}
+      RETURNING id
+    `;
 
-    // Importa i corsi attuali
-    const { courses } = await import("@/data/platform");
-
-    // Filtra il corso da eliminare
-    const updatedCourses = courses.filter((c) => c.id !== id);
-
-    if (updatedCourses.length === courses.length) {
+    if (result.length === 0) {
       return NextResponse.json(
         { success: false, message: "Course not found" },
         { status: 404 },
       );
     }
 
-    // Ricostruisci il file
-    const coursesString = JSON.stringify(updatedCourses, null, 2);
-    const articlesMatch = fileContent.match(/(export const articles:[\s\S]*)/);
-
-    const newContent = `import { ICourse, IArticle, IQuiz } from "@/types";
-
-export const courses: ICourse[] = ${coursesString};
-
-${articlesMatch ? articlesMatch[0] : ""}`;
-
-    await fs.writeFile(filePath, newContent, "utf-8");
-
     return NextResponse.json(
       { success: true, message: "Course deleted" },
       { status: 200 },
     );
   } catch (error) {
-    // Delete error
+    console.error("Error deleting course:", error);
     return NextResponse.json(
       { success: false, message: "Error deleting course" },
       { status: 500 },

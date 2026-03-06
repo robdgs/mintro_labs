@@ -70,6 +70,7 @@ export default function QuizFormModal({
       const response = await fetch("/api/admin/quizzes", {
         method,
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(quizData),
       });
 

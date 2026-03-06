@@ -77,6 +77,7 @@ export default function ArticleFormModal({
       const response = await fetch("/api/admin/articles", {
         method,
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(articleData),
       });
 

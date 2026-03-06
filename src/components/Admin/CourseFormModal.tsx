@@ -75,6 +75,7 @@ export default function CourseFormModal({
       const response = await fetch("/api/admin/courses", {
         method,
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify(courseData),
       });
 

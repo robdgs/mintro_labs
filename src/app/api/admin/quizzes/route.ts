@@ -1,7 +1,10 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
-import fs from "fs/promises";
-import path from "path";
+import { sql } from "@/lib/db";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET =
+  process.env.JWT_SECRET || "fallback-secret-change-in-production";
 
 // Verifica se l'utente è admin
 function isAuthenticated() {
@@ -9,11 +12,11 @@ function isAuthenticated() {
   if (!token) return false;
 
   try {
-    const decoded = Buffer.from(token.value, "base64").toString();
-    const parts = decoded.split(":");
-    return (
-      parts.length === 3 && parts[0] === (process.env.ADMIN_USERNAME || "admin")
-    );
+    const decoded = jwt.verify(token.value, JWT_SECRET) as {
+      username: string;
+      role: string;
+    };
+    return decoded.username && decoded.role === "admin";
   } catch {
     return false;
   }
@@ -22,14 +25,43 @@ function isAuthenticated() {
 // GET - Recupera tutti i quiz
 export async function GET() {
   try {
-    const { quizzes } = await import("@/data/platform");
+    const quizzes = await sql`
+      SELECT q.*,
+        COALESCE(
+          json_agg(
+            json_build_object(
+              'id', qq.question_id,
+              'question', qq.question,
+              'options', qq.options,
+              'correctAnswer', qq.correct_answer,
+              'explanation', qq.explanation
+            )
+          ) FILTER (WHERE qq.id IS NOT NULL),
+          '[]'
+        ) as questions
+      FROM quizzes q
+      LEFT JOIN quiz_questions qq ON q.id = qq.quiz_id
+      GROUP BY q.id
+      ORDER BY q.id
+    `;
+
+    const formattedQuizzes = quizzes.map((quiz: any) => ({
+      id: quiz.id.toString(),
+      title: quiz.title,
+      description: quiz.description,
+      category: quiz.category,
+      difficulty: quiz.difficulty,
+      duration: quiz.duration,
+      passingScore: quiz.passing_score,
+      questions: quiz.questions,
+    }));
 
     return NextResponse.json({
       success: true,
-      quizzes: quizzes,
+      quizzes: formattedQuizzes,
     });
   } catch (error) {
-    // Error loading quizzes
+    console.error("Error loading quizzes:", error);
     return NextResponse.json(
       { success: false, message: "Error reading quizzes" },
       { status: 500 },
@@ -48,40 +80,42 @@ export async function POST(request: Request) {
 
   try {
     const quizData = await request.json();
-    const filePath = path.join(process.cwd(), "src/data/platform.ts");
-    const fileContent = await fs.readFile(filePath, "utf-8");
 
-    const { quizzes } = await import("@/data/platform");
+    // Inserisci il nuovo quiz
+    const result = await sql`
+      INSERT INTO quizzes (title, description, category, difficulty, duration, passing_score, total_questions)
+      VALUES (${quizData.title}, ${quizData.description}, ${quizData.category},
+              ${quizData.difficulty}, ${quizData.duration}, ${quizData.passingScore || 70},
+              ${quizData.questions?.length || 0})
+      RETURNING *
+    `;
 
-    // Genera nuovo ID
-    const ids = quizzes.map((q) => parseInt(q.id)).filter((id) => !isNaN(id));
-    const newId = (Math.max(...ids, 0) + 1).toString();
+    const newQuiz = result[0];
 
-    const newQuiz = {
-      id: newId,
-      ...quizData,
-      quizQuestions: quizData.quizQuestions || [],
-    };
+    // Inserisci le domande se presenti
+    if (quizData.questions && quizData.questions.length > 0) {
+      for (const question of quizData.questions) {
+        await sql`
+          INSERT INTO quiz_questions (quiz_id, question_id, question, options, correct_answer, explanation)
+          VALUES (${newQuiz.id}, ${question.id}, ${question.question},
+                  ${JSON.stringify(question.options)}, ${question.correctAnswer},
+                  ${question.explanation || null})
+        `;
+      }
+    }
 
-    const updatedQuizzes = [...quizzes, newQuiz];
-
-    // Ricostruisci il file
-    const beforeQuizzesMatch = fileContent.match(
-      /(import[\s\S]*?export const articles:[\s\S]*?\];)/,
+    return NextResponse.json(
+      {
+        success: true,
+        quiz: {
+          id: newQuiz.id.toString(),
+          ...quizData,
+        },
+      },
+      { status: 201 },
     );
-
-    const quizzesString = JSON.stringify(updatedQuizzes, null, 2);
-
-    const newContent = `${beforeQuizzesMatch ? beforeQuizzesMatch[0] : ""}
-
-export const quizzes: IQuiz[] = ${quizzesString};
-`;
-
-    await fs.writeFile(filePath, newContent, "utf-8");
-
-    return NextResponse.json({ success: true, quiz: newQuiz }, { status: 201 });
   } catch (error) {
-    // Create quiz error
+    console.error("Error creating quiz:", error);
     return NextResponse.json(
       { success: false, message: "Error creating quiz" },
       { status: 500 },
@@ -100,46 +134,58 @@ export async function PUT(request: Request) {
 
   try {
     const quizData = await request.json();
-    const filePath = path.join(process.cwd(), "src/data/platform.ts");
-    const fileContent = await fs.readFile(filePath, "utf-8");
 
-    const { quizzes } = await import("@/data/platform");
+    if (!quizData.id) {
+      return NextResponse.json(
+        { success: false, message: "Quiz ID required" },
+        { status: 400 },
+      );
+    }
 
-    const quizIndex = quizzes.findIndex((q) => q.id === quizData.id);
+    // Aggiorna il quiz
+    const result = await sql`
+      UPDATE quizzes
+      SET title = ${quizData.title},
+          description = ${quizData.description},
+          category = ${quizData.category},
+          difficulty = ${quizData.difficulty},
+          duration = ${quizData.duration},
+          passing_score = ${quizData.passingScore || 70},
+          total_questions = ${quizData.questions?.length || 0},
+          updated_at = CURRENT_TIMESTAMP
+      WHERE id = ${parseInt(quizData.id)}
+      RETURNING *
+    `;
 
-    if (quizIndex === -1) {
+    if (result.length === 0) {
       return NextResponse.json(
         { success: false, message: "Quiz not found" },
         { status: 404 },
       );
     }
 
-    const updatedQuizzes = [...quizzes];
-    updatedQuizzes[quizIndex] = {
-      ...quizzes[quizIndex],
-      ...quizData,
-    };
+    // Aggiorna le domande se presenti
+    if (quizData.questions) {
+      // Elimina le domande esistenti
+      await sql`DELETE FROM quiz_questions WHERE quiz_id = ${parseInt(quizData.id)}`;
 
-    // Ricostruisci il file
-    const beforeQuizzesMatch = fileContent.match(
-      /(import[\s\S]*?export const articles:[\s\S]*?\];)/,
-    );
-
-    const quizzesString = JSON.stringify(updatedQuizzes, null, 2);
-
-    const newContent = `${beforeQuizzesMatch ? beforeQuizzesMatch[0] : ""}
-
-export const quizzes: IQuiz[] = ${quizzesString};
-`;
-
-    await fs.writeFile(filePath, newContent, "utf-8");
+      // Inserisci le nuove domande
+      for (const question of quizData.questions) {
+        await sql`
+          INSERT INTO quiz_questions (quiz_id, question_id, question, options, correct_answer, explanation)
+          VALUES (${parseInt(quizData.id)}, ${question.id}, ${question.question},
+                  ${JSON.stringify(question.options)}, ${question.correctAnswer},
+                  ${question.explanation || null})
+        `;
+      }
+    }
 
     return NextResponse.json(
       { success: true, message: "Quiz updated" },
       { status: 200 },
     );
   } catch (error) {
-    // Update quiz error
+    console.error("Error updating quiz:", error);
     return NextResponse.json(
       { success: false, message: "Error updating quiz" },
       { status: 500 },
@@ -166,40 +212,25 @@ export async function DELETE(request: Request) {
       );
     }
 
-    const filePath = path.join(process.cwd(), "src/data/platform.ts");
-    const fileContent = await fs.readFile(filePath, "utf-8");
+    // Elimina il quiz (le domande verranno eliminate automaticamente per CASCADE)
+    const result = await sql`
+      DELETE FROM quizzes WHERE id = ${parseInt(id)}
+      RETURNING id
+    `;
 
-    const { quizzes } = await import("@/data/platform");
-
-    const updatedQuizzes = quizzes.filter((q) => q.id !== id);
-
-    if (updatedQuizzes.length === quizzes.length) {
+    if (result.length === 0) {
       return NextResponse.json(
         { success: false, message: "Quiz not found" },
         { status: 404 },
       );
     }
 
-    // Ricostruisci il file
-    const beforeQuizzesMatch = fileContent.match(
-      /(import[\s\S]*?export const articles:[\s\S]*?\];)/,
-    );
-
-    const quizzesString = JSON.stringify(updatedQuizzes, null, 2);
-
-    const newContent = `${beforeQuizzesMatch ? beforeQuizzesMatch[0] : ""}
-
-export const quizzes: IQuiz[] = ${quizzesString};
-`;
-
-    await fs.writeFile(filePath, newContent, "utf-8");
-
     return NextResponse.json(
       { success: true, message: "Quiz deleted" },
       { status: 200 },
     );
   } catch (error) {
-    // Delete quiz error
+    console.error("Error deleting quiz:", error);
     return NextResponse.json(
       { success: false, message: "Error deleting quiz" },
       { status: 500 },

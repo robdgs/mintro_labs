@@ -65,7 +65,9 @@ export default function AdminDashboardPage() {
 
   const loadCourses = async () => {
     try {
-      const response = await fetch("/api/admin/courses");
+      const response = await fetch("/api/admin/courses", {
+        credentials: "include",
+      });
       const data = await response.json();
       if (data.success) {
         setCourses(data.courses);
@@ -77,7 +79,9 @@ export default function AdminDashboardPage() {
 
   const loadArticles = async () => {
     try {
-      const response = await fetch("/api/admin/articles");
+      const response = await fetch("/api/admin/articles", {
+        credentials: "include",
+      });
       const data = await response.json();
       if (data.success) {
         setArticles(data.articles);
@@ -89,7 +93,9 @@ export default function AdminDashboardPage() {
 
   const loadQuizzes = async () => {
     try {
-      const response = await fetch("/api/admin/quizzes");
+      const response = await fetch("/api/admin/quizzes", {
+        credentials: "include",
+      });
       const data = await response.json();
       if (data.success) {
         setQuizzes(data.quizzes);
@@ -101,7 +107,10 @@ export default function AdminDashboardPage() {
 
   const handleLogout = async () => {
     try {
-      await fetch("/api/admin/logout", { method: "POST" });
+      await fetch("/api/admin/logout", {
+        method: "POST",
+        credentials: "include",
+      });
       router.push("/admin/login");
     } catch (err) {
       // Logout failed
@@ -147,6 +156,7 @@ export default function AdminDashboardPage() {
       const response = await fetch("/api/admin/courses", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ id: courseId }),
       });
 
@@ -171,6 +181,7 @@ export default function AdminDashboardPage() {
       const response = await fetch("/api/admin/articles", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ id: articleId }),
       });
 
@@ -195,6 +206,7 @@ export default function AdminDashboardPage() {
       const response = await fetch("/api/admin/quizzes", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({ id: quizId }),
       });
 
