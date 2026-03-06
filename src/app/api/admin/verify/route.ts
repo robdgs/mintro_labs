@@ -1,5 +1,8 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
+import jwt from "jsonwebtoken";
+
+const JWT_SECRET = process.env.JWT_SECRET || "fallback-secret-change-in-production";
 
 export async function GET() {
   const token = cookies().get("admin_token");
@@ -8,20 +11,14 @@ export async function GET() {
     return NextResponse.json({ authenticated: false }, { status: 401 });
   }
 
-  // Verifica il token (semplificato)
-  // In produzione, usa JWT con verifica della firma
   try {
-    const decoded = Buffer.from(token.value, "base64").toString();
-    const parts = decoded.split(":");
-
-    if (
-      parts.length === 3 &&
-      parts[0] === (process.env.ADMIN_USERNAME || "admin")
-    ) {
+    const decoded = jwt.verify(token.value, JWT_SECRET) as { username: string; role: string };
+    
+    if (decoded.username && decoded.role === "admin") {
       return NextResponse.json({ authenticated: true }, { status: 200 });
     }
   } catch (error) {
-    // Token invalido
+    // Token invalido o scaduto
   }
 
   return NextResponse.json({ authenticated: false }, { status: 401 });

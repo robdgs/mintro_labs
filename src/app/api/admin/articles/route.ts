@@ -29,7 +29,7 @@ export async function GET() {
       articles: articles,
     });
   } catch (error) {
-    console.error("Error loading articles:", error);
+    // Error loading articles
     return NextResponse.json(
       { success: false, message: "Error reading articles" },
       { status: 500 },
@@ -86,7 +86,7 @@ ${quizzesMatch ? quizzesMatch[0] : ""}`;
       { status: 201 },
     );
   } catch (error) {
-    console.error("Create article error:", error);
+    // Create article error
     return NextResponse.json(
       { success: false, message: "Error creating article" },
       { status: 500 },
@@ -146,7 +146,7 @@ ${quizzesMatch ? quizzesMatch[0] : ""}`;
       { status: 200 },
     );
   } catch (error) {
-    console.error("Update article error:", error);
+    // Update article error
     return NextResponse.json(
       { success: false, message: "Error updating article" },
       { status: 500 },
@@ -208,7 +208,7 @@ ${quizzesMatch ? quizzesMatch[0] : ""}`;
       { status: 200 },
     );
   } catch (error) {
-    console.error("Delete article error:", error);
+    // Delete article error
     return NextResponse.json(
       { success: false, message: "Error deleting article" },
       { status: 500 },

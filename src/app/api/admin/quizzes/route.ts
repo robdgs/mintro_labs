@@ -29,7 +29,7 @@ export async function GET() {
       quizzes: quizzes,
     });
   } catch (error) {
-    console.error("Error loading quizzes:", error);
+    // Error loading quizzes
     return NextResponse.json(
       { success: false, message: "Error reading quizzes" },
       { status: 500 },
@@ -81,7 +81,7 @@ export const quizzes: IQuiz[] = ${quizzesString};
 
     return NextResponse.json({ success: true, quiz: newQuiz }, { status: 201 });
   } catch (error) {
-    console.error("Create quiz error:", error);
+    // Create quiz error
     return NextResponse.json(
       { success: false, message: "Error creating quiz" },
       { status: 500 },
@@ -139,7 +139,7 @@ export const quizzes: IQuiz[] = ${quizzesString};
       { status: 200 },
     );
   } catch (error) {
-    console.error("Update quiz error:", error);
+    // Update quiz error
     return NextResponse.json(
       { success: false, message: "Error updating quiz" },
       { status: 500 },
@@ -199,7 +199,7 @@ export const quizzes: IQuiz[] = ${quizzesString};
       { status: 200 },
     );
   } catch (error) {
-    console.error("Delete quiz error:", error);
+    // Delete quiz error
     return NextResponse.json(
       { success: false, message: "Error deleting quiz" },
       { status: 500 },

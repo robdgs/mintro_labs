@@ -71,7 +71,7 @@ export default function AdminDashboardPage() {
         setCourses(data.courses);
       }
     } catch (err) {
-      console.error("Failed to load courses:", err);
+      // Error loading courses
     }
   };
 
@@ -83,7 +83,7 @@ export default function AdminDashboardPage() {
         setArticles(data.articles);
       }
     } catch (err) {
-      console.error("Failed to load articles:", err);
+      // Error loading articles
     }
   };
 
@@ -95,7 +95,7 @@ export default function AdminDashboardPage() {
         setQuizzes(data.quizzes);
       }
     } catch (err) {
-      console.error("Failed to load quizzes:", err);
+      // Error loading quizzes
     }
   };
 
@@ -104,7 +104,7 @@ export default function AdminDashboardPage() {
       await fetch("/api/admin/logout", { method: "POST" });
       router.push("/admin/login");
     } catch (err) {
-      console.error("Logout failed:", err);
+      // Logout failed
     }
   };
 

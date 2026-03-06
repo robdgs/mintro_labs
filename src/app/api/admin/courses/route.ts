@@ -30,7 +30,7 @@ export async function GET() {
       courses: courses,
     });
   } catch (error) {
-    console.error("Error loading courses:", error);
+    // Error loading courses
     return NextResponse.json(
       { success: false, message: "Error reading courses" },
       { status: 500 },
@@ -87,7 +87,7 @@ ${articlesMatch ? articlesMatch[0] : ""}`;
       { status: 201 },
     );
   } catch (error) {
-    console.error("Create error:", error);
+    // Create error
     return NextResponse.json(
       { success: false, message: "Error creating course" },
       { status: 500 },
@@ -145,7 +145,7 @@ ${articlesMatch ? articlesMatch[0] : ""}`;
       { status: 200 },
     );
   } catch (error) {
-    console.error("Update error:", error);
+    // Update error
     return NextResponse.json(
       { success: false, message: "Error updating course" },
       { status: 500 },
@@ -205,7 +205,7 @@ ${articlesMatch ? articlesMatch[0] : ""}`;
       { status: 200 },
     );
   } catch (error) {
-    console.error("Delete error:", error);
+    // Delete error
     return NextResponse.json(
       { success: false, message: "Error deleting course" },
       { status: 500 },
