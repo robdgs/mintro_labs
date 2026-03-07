@@ -33,9 +33,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Invia email usando Resend
+    // Send email using Resend
     const data = await resend.emails.send({
-      from: "Mintro Labs Contact <onboarding@resend.dev>", // Usa il dominio verificato in produzione
+      from: "Mintro Labs Contact <onboarding@resend.dev>", // Use verified domain in production
       to: [process.env.CONTACT_EMAIL!],
       replyTo: email,
       subject: `New Contact Form Submission from ${name}`,

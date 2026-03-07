@@ -1,6 +1,7 @@
 "use client";
 
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { usePrivy } from "@privy-io/react-auth";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   HiOutlineXMark,
@@ -24,10 +25,67 @@ const CourseModal: React.FC<CourseModalProps> = ({
   onClose,
   course,
 }) => {
+  const { user, authenticated } = usePrivy();
   const [currentModule, setCurrentModule] = useState(0);
   const [showOverview, setShowOverview] = useState(true);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check if course is already completed when modal opens
+  useEffect(() => {
+    const checkCompletedStatus = async () => {
+      if (!course || !authenticated || !user) {
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(true);
+      setIsCompleted(false); // Reset state when course changes
+
+      try {
+        const response = await fetch(
+          `/api/user/progress/check?userId=${user.id}&contentType=course&contentId=${course.id}`,
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setIsCompleted(data.completed || false);
+        }
+      } catch (error) {
+        console.error("Error checking completion status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (isOpen) {
+      checkCompletedStatus();
+    }
+  }, [isOpen, course, authenticated, user]);
 
   if (!course) return null;
+
+  const markAsCompleted = async () => {
+    if (!authenticated || !user) return;
+
+    try {
+      const response = await fetch("/api/user/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          contentType: "course",
+          contentId: course.id,
+          completed: true,
+        }),
+      });
+
+      if (response.ok) {
+        setIsCompleted(true);
+      }
+    } catch (error) {
+      console.error("Error marking course as completed:", error);
+    }
+  };
 
   const handleClose = () => {
     setCurrentModule(0);
@@ -281,7 +339,7 @@ const CourseModal: React.FC<CourseModalProps> = ({
 
                 {/* Footer Navigation */}
                 <div className="border-t-4 border-foreground bg-primary/30 p-6">
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                     <button
                       onClick={handlePrevious}
                       disabled={showOverview && currentModule === 0}
@@ -291,10 +349,32 @@ const CourseModal: React.FC<CourseModalProps> = ({
                       Previous
                     </button>
 
-                    <div className="text-sm text-foreground/70">
-                      {showOverview
-                        ? "Overview"
-                        : `${currentModule + 1} / ${course.modules?.length || 0}`}
+                    <div className="flex items-center gap-4">
+                      <div className="text-sm text-foreground/70">
+                        {showOverview
+                          ? "Overview"
+                          : `${currentModule + 1} / ${course.modules?.length || 0}`}
+                      </div>
+
+                      {authenticated &&
+                        !showOverview &&
+                        currentModule === (course.modules?.length || 0) - 1 &&
+                        !isCompleted && (
+                          <button
+                            onClick={markAsCompleted}
+                            className="px-6 py-2 font-bold text-white border-2 border-foreground bg-green-600 hover:bg-green-700 transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                          >
+                            <HiCheckCircle className="inline w-5 h-5 mr-2" />
+                            Complete Course
+                          </button>
+                        )}
+
+                      {isCompleted && (
+                        <span className="px-6 py-2 font-bold text-foreground border-2 border-foreground bg-primary flex items-center gap-2">
+                          <HiCheckCircle className="w-5 h-5 text-green-600" />
+                          Completed!
+                        </span>
+                      )}
                     </div>
 
                     <button

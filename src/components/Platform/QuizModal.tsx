@@ -1,6 +1,7 @@
 "use client";
 
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { usePrivy } from "@privy-io/react-auth";
 import { Dialog, Transition } from "@headlessui/react";
 import { HiOutlineXMark, HiCheckCircle, HiXCircle } from "react-icons/hi2";
 import { IQuiz } from "@/types";
@@ -12,14 +13,75 @@ interface QuizModalProps {
 }
 
 const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
+  const { user, authenticated } = usePrivy();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<number[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [score, setScore] = useState(0);
+  const [isPassed, setIsPassed] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check if quiz is already passed when modal opens
+  useEffect(() => {
+    const checkPassedStatus = async () => {
+      if (!quiz || !authenticated || !user) {
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(true);
+      setIsPassed(false); // Reset state when quiz changes
+
+      try {
+        const response = await fetch(
+          `/api/user/progress/check?userId=${user.id}&contentType=quiz&contentId=${quiz.id}`,
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setIsPassed(data.completed || false);
+        }
+      } catch (error) {
+        console.error("Error checking quiz status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (isOpen) {
+      checkPassedStatus();
+    }
+  }, [isOpen, quiz, authenticated, user]);
 
   if (!quiz) return null;
 
   const hasQuestions = quiz.quizQuestions && quiz.quizQuestions.length > 0;
+
+  const saveQuizProgress = async (
+    finalScore: number,
+    totalQuestions: number,
+  ) => {
+    if (!authenticated || !user) return;
+
+    const passed = finalScore / totalQuestions >= 0.6; // 60% passing grade
+
+    if (passed) {
+      try {
+        await fetch("/api/user/progress", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: user.id,
+            contentType: "quiz",
+            contentId: quiz.id,
+            completed: true,
+          }),
+        });
+        setIsPassed(true);
+      } catch (error) {
+        console.error("Error saving quiz progress:", error);
+      }
+    }
+  };
 
   const handleClose = () => {
     setCurrentQuestion(0);
@@ -56,6 +118,9 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
       });
       setScore(correctCount);
       setShowResults(true);
+
+      // Save progress if user is authenticated
+      saveQuizProgress(correctCount, quiz.quizQuestions?.length || 0);
     }
   };
 
