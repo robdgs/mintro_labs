@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import Container from "@/components/Container";
 import SectionTitle from "@/components/SectionTitle";
 import CourseCard from "@/components/Platform/CourseCard";
@@ -10,7 +11,12 @@ import ArticleModal from "@/components/Platform/ArticleModal";
 import QuizModal from "@/components/Platform/QuizModal";
 import CourseModal from "@/components/Platform/CourseModal";
 import { IArticle, IQuiz, ICourse } from "@/types";
-import { HiAcademicCap, HiDocumentText, HiSparkles } from "react-icons/hi2";
+import {
+  HiAcademicCap,
+  HiDocumentText,
+  HiSparkles,
+  HiArrowLeft,
+} from "react-icons/hi2";
 
 const PlatformPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<
@@ -76,6 +82,17 @@ const PlatformPage: React.FC = () => {
 
   return (
     <div className="min-h-screen pt-32 pb-20">
+      {/* Fixed Back Button */}
+      <div className="fixed top-[100px] left-4 md:top-[164px] md:left-20 z-40">
+        <Link
+          href="/"
+          className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 font-bold text-foreground border-2 border-foreground bg-primary shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all duration-200"
+          aria-label="Torna alla Home"
+        >
+          <HiArrowLeft className="w-5 h-5 md:w-6 md:h-6" />
+        </Link>
+      </div>
+
       <Container>
         {/* Hero Section */}
         <div className="text-center mb-16 mt-8">

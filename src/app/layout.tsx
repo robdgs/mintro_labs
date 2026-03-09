@@ -5,6 +5,7 @@ import { Source_Sans_3, Manrope } from "next/font/google";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
+import ScrollToTop from "@/components/ScrollToTop";
 import { siteDetails } from "@/data/siteDetails";
 
 import "./globals.css";
@@ -54,6 +55,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
+        <ScrollToTop />
       </body>
     </html>
   );
