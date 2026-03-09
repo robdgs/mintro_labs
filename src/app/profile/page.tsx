@@ -4,6 +4,7 @@ import { usePrivy } from "@privy-io/react-auth";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { HiUser, HiEnvelope, HiWallet, HiArrowLeft } from "react-icons/hi2";
+import ProgressModal from "@/components/Profile/ProgressModal";
 
 interface UserProgress {
   coursesCompleted: number;
@@ -16,6 +17,10 @@ export default function ProfilePage() {
   const router = useRouter();
   const [progress, setProgress] = useState<UserProgress | null>(null);
   const [loading, setLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalType, setModalType] = useState<
+    "articles" | "courses" | "quizzes"
+  >("articles");
 
   useEffect(() => {
     if (ready && !authenticated) {
@@ -58,6 +63,11 @@ export default function ProfilePage() {
   const handleLogout = async () => {
     await logout();
     router.push("/platform");
+  };
+
+  const openModal = (type: "articles" | "courses" | "quizzes") => {
+    setModalType(type);
+    setModalOpen(true);
   };
 
   return (
@@ -155,29 +165,48 @@ export default function ProfilePage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white border-2 border-foreground p-6 text-center shadow-[4px_4px_0px_0px_rgba(46,46,46,1)]">
+                <button
+                  onClick={() => openModal("courses")}
+                  className="bg-white border-2 border-foreground p-6 text-center shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all cursor-pointer"
+                >
                   <p className="text-4xl font-bold text-secondary mb-2">
                     {progress?.coursesCompleted ?? 0}
                   </p>
                   <p className="text-foreground/70">Courses Completed</p>
-                </div>
-                <div className="bg-white border-2 border-foreground p-6 text-center shadow-[4px_4px_0px_0px_rgba(46,46,46,1)]">
+                </button>
+                <button
+                  onClick={() => openModal("articles")}
+                  className="bg-white border-2 border-foreground p-6 text-center shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all cursor-pointer"
+                >
                   <p className="text-4xl font-bold text-secondary mb-2">
                     {progress?.articlesRead ?? 0}
                   </p>
                   <p className="text-foreground/70">Articles Read</p>
-                </div>
-                <div className="bg-white border-2 border-foreground p-6 text-center shadow-[4px_4px_0px_0px_rgba(46,46,46,1)]">
+                </button>
+                <button
+                  onClick={() => openModal("quizzes")}
+                  className="bg-white border-2 border-foreground p-6 text-center shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px] transition-all cursor-pointer"
+                >
                   <p className="text-4xl font-bold text-secondary mb-2">
                     {progress?.quizzesPassed ?? 0}
                   </p>
                   <p className="text-foreground/70">Quizzes Passed</p>
-                </div>
+                </button>
               </div>
             )}
           </div>
         </div>
       </div>
+
+      {/* Progress Modal */}
+      {user && (
+        <ProgressModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          type={modalType}
+          userId={user.id}
+        />
+      )}
     </div>
   );
 }

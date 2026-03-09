@@ -11,6 +11,7 @@ import CTA from "@/components/CTA";
 import Descriptor from "@/components/Descriptor";
 import PartnerDisplay from "@/components/PartnerDisplay";
 import PlatformBanner from "@/components/PlatformBanner";
+import CookieConsent from "@/components/CookieConsent";
 
 const HomePage: React.FC = () => {
   return (
@@ -44,6 +45,9 @@ const HomePage: React.FC = () => {
 
         <CTA />
       </Container>
+
+      {/* Cookie Consent Banner */}
+      <CookieConsent />
     </>
   );
 };

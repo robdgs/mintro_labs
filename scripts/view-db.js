@@ -47,6 +47,17 @@ async function viewDatabase() {
       await sql`SELECT COUNT(*) as total FROM quiz_questions`;
     console.log(`Totale domande quiz: ${questionCount[0].total}\n`);
 
+    // Progressi utenti
+    console.log("=".repeat(60));
+    console.log("\n👤 PROGRESSI UTENTI:\n");
+    const userProgress = await sql`
+      SELECT user_id, content_type, content_id, completed, completed_at 
+      FROM user_progress 
+      ORDER BY user_id, content_type, content_id
+    `;
+    console.table(userProgress);
+    console.log(`Totale record progressi: ${userProgress.length}\n`);
+
     // Riepilogo
     console.log("=".repeat(60));
     console.log("\n📊 RIEPILOGO DATABASE:\n");
@@ -55,6 +66,7 @@ async function viewDatabase() {
     console.log(`  Articoli:        ${articleCount[0].total}`);
     console.log(`  Quiz:            ${quizCount[0].total}`);
     console.log(`  Domande Quiz:    ${questionCount[0].total}`);
+    console.log(`  Record Progressi: ${userProgress.length}`);
     console.log("\n" + "=".repeat(60));
   } catch (error) {
     console.error("❌ Errore:", error);
