@@ -49,14 +49,6 @@ export default function RootLayout({
       <body
         className={`${manrope.className} ${sourceSans.className} antialiased`}
       >
-        <Loader />
-        {siteDetails.googleAnalyticsId && (
-          <GoogleAnalytics gaId={siteDetails.googleAnalyticsId} />
-        )}
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <ScrollToTop />
         <PrivyProviderWrapper>
           <Loader />
           {siteDetails.googleAnalyticsId && (
@@ -65,6 +57,7 @@ export default function RootLayout({
           <Header />
           <main>{children}</main>
           <Footer />
+          <ScrollToTop />
         </PrivyProviderWrapper>
       </body>
     </html>

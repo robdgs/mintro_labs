@@ -17,12 +17,6 @@ import {
   HiAcademicCap,
   HiDocumentText,
   HiSparkles,
-  HiUser,
-} from "react-icons/hi2";
-import {
-  HiAcademicCap,
-  HiDocumentText,
-  HiSparkles,
   HiArrowLeft,
   HiMagnifyingGlass,
 } from "react-icons/hi2";
@@ -176,35 +170,6 @@ const PlatformPage: React.FC = () => {
             Discover courses, read articles, and test your knowledge with our
             comprehensive learning resources.
           </p>
-
-          {/* Auth Section */}
-          <div className="flex justify-center gap-4 mb-8">
-            {authenticated ? (
-              <div className="flex items-center gap-4">
-                <div className="flex items-center gap-2 px-6 py-3 bg-[#fafaf5] border-2 border-foreground shadow-[4px_4px_0px_0px_rgba(46,46,46,1)]">
-                  <HiUser className="w-5 h-5" />
-                  <span className="font-bold">
-                    {user?.email?.address ||
-                      user?.wallet?.address?.slice(0, 6) + "..." ||
-                      "User"}
-                  </span>
-                </div>
-                <button
-                  onClick={() => router.push("/profile")}
-                  className="bg-primary text-foreground font-bold px-6 py-3 border-2 border-foreground hover:bg-primary/80 transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
-                >
-                  Profile
-                </button>
-              </div>
-            ) : (
-              <button
-                onClick={login}
-                className="bg-secondary text-white font-bold px-8 py-4 border-2 border-foreground hover:bg-foreground transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
-              >
-                Login
-              </button>
-            )}
-          </div>
         </div>
 
         {/* Tab Navigation */}

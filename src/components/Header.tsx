@@ -3,8 +3,10 @@
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { Transition } from "@headlessui/react";
-import { HiOutlineXMark, HiBars3 } from "react-icons/hi2";
+import { HiOutlineXMark, HiBars3, HiUser } from "react-icons/hi2";
 import Image from "next/image";
+import { usePrivy } from "@privy-io/react-auth";
+import { usePathname } from "next/navigation";
 
 import { heroDetails } from "@/data/hero";
 import Container from "./Container";
@@ -16,6 +18,9 @@ const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+  const { login, authenticated, ready, user } = usePrivy();
+  const pathname = usePathname();
+  const isPlatformPage = pathname === "/platform";
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -89,6 +94,27 @@ const Header: React.FC = () => {
                 </Link>
               </li>
             ))}
+            {isPlatformPage && ready && !authenticated && (
+              <li>
+                <button
+                  onClick={login}
+                  className="relative text-foreground font-bold px-6 py-2.5 border-2 border-foreground bg-[#fafaf5] hover:bg-primary transition-all duration-200"
+                >
+                  Login
+                </button>
+              </li>
+            )}
+            {authenticated && (
+              <li>
+                <Link
+                  href="/profile"
+                  className="flex items-center justify-center w-12 h-12 bg-secondary text-white hover:bg-secondary/80 transition-all duration-200 border-2 border-foreground shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                  aria-label="Profile"
+                >
+                  <HiUser className="w-6 h-6" />
+                </Link>
+              </li>
+            )}
             <li>
               <button
                 onClick={() => setIsContactModalOpen(true)}
@@ -144,6 +170,35 @@ const Header: React.FC = () => {
                   </Link>
                 </li>
               ))}
+
+              {isPlatformPage && ready && !authenticated && (
+                <li className="mt-2 px-2">
+                  <button
+                    onClick={() => {
+                      login();
+                      toggleMenu();
+                    }}
+                    className="flex items-center justify-center text-foreground font-bold bg-[#fafaf5] border-2 border-foreground px-5 py-3 transition-all duration-200 w-full"
+                  >
+                    Login
+                  </button>
+                </li>
+              )}
+
+              {authenticated && (
+                <li className="mt-2 px-2">
+                  <Link
+                    href="/profile"
+                    onClick={toggleMenu}
+                    className="flex items-center justify-center w-full py-3 bg-secondary text-white font-bold border-2 border-foreground hover:bg-secondary/80 transition-all"
+                  >
+                    <div className="flex items-center gap-2">
+                      <HiUser className="w-5 h-5" />
+                      <span>Profile</span>
+                    </div>
+                  </Link>
+                </li>
+              )}
 
               <li className="mt-2 px-2 pb-2">
                 <button
