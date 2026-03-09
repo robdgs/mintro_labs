@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET =
   process.env.JWT_SECRET || "fallback-secret-change-in-production";
 
-// Verifica se l'utente è admin
+// Check if user is admin
 function isAuthenticated() {
   const token = cookies().get("admin_token");
   if (!token) return false;
@@ -22,7 +22,7 @@ function isAuthenticated() {
   }
 }
 
-// GET - Recupera tutti i quiz
+// GET - Retrieve all quizzes
 export async function GET() {
   try {
     const quizzes = await sql`
@@ -49,7 +49,7 @@ export async function GET() {
       const quizQuestions = Array.isArray(quiz.questions)
         ? quiz.questions.map((q: any) => ({
             ...q,
-            correctAnswer: parseInt(q.correctAnswer, 10), // Converti stringa in numero
+            correctAnswer: parseInt(q.correctAnswer, 10), // Convert string to number
           }))
         : [];
       return {
@@ -60,8 +60,8 @@ export async function GET() {
         difficulty: quiz.difficulty,
         duration: quiz.duration,
         passingScore: quiz.passing_score,
-        questions: quizQuestions.length, // Numero di domande
-        quizQuestions: quizQuestions, // Array delle domande
+        questions: quizQuestions.length, // Number of questions
+        quizQuestions: quizQuestions, // Array of questions
       };
     });
 
@@ -78,7 +78,7 @@ export async function GET() {
   }
 }
 
-// POST - Aggiungi un nuovo quiz
+// POST - Add a new quiz
 export async function POST(request: Request) {
   if (!isAuthenticated()) {
     return NextResponse.json(
@@ -90,7 +90,7 @@ export async function POST(request: Request) {
   try {
     const quizData = await request.json();
 
-    // Inserisci il nuovo quiz
+    // Insert the new quiz
     const result = await sql`
       INSERT INTO quizzes (title, description, category, difficulty, duration, passing_score, total_questions)
       VALUES (${quizData.title}, ${quizData.description}, ${quizData.category},
@@ -101,7 +101,7 @@ export async function POST(request: Request) {
 
     const newQuiz = result[0];
 
-    // Inserisci le domande se presenti
+    // Insert questions if present
     if (quizData.questions && quizData.questions.length > 0) {
       for (const question of quizData.questions) {
         await sql`
@@ -132,7 +132,7 @@ export async function POST(request: Request) {
   }
 }
 
-// PUT - Aggiorna un quiz esistente
+// PUT - Update an existing quiz
 export async function PUT(request: Request) {
   if (!isAuthenticated()) {
     return NextResponse.json(
@@ -151,7 +151,7 @@ export async function PUT(request: Request) {
       );
     }
 
-    // Aggiorna il quiz
+    // Update the quiz
     const result = await sql`
       UPDATE quizzes
       SET title = ${quizData.title},
@@ -173,12 +173,12 @@ export async function PUT(request: Request) {
       );
     }
 
-    // Aggiorna le domande se presenti
+    // Update questions if present
     if (quizData.questions) {
-      // Elimina le domande esistenti
+      // Delete existing questions
       await sql`DELETE FROM quiz_questions WHERE quiz_id = ${parseInt(quizData.id)}`;
 
-      // Inserisci le nuove domande
+      // Insert new questions
       for (const question of quizData.questions) {
         await sql`
           INSERT INTO quiz_questions (quiz_id, question_id, question, options, correct_answer, explanation)
@@ -202,7 +202,7 @@ export async function PUT(request: Request) {
   }
 }
 
-// DELETE - Elimina un quiz
+// DELETE - Delete a quiz
 export async function DELETE(request: Request) {
   if (!isAuthenticated()) {
     return NextResponse.json(
@@ -221,7 +221,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // Elimina il quiz (le domande verranno eliminate automaticamente per CASCADE)
+    // Delete the quiz (questions will be automatically deleted by CASCADE)
     const result = await sql`
       DELETE FROM quizzes WHERE id = ${parseInt(id)}
       RETURNING id

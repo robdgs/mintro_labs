@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET =
   process.env.JWT_SECRET || "fallback-secret-change-in-production";
 
-// Verifica se l'utente è admin
+// Check if user is admin
 function isAuthenticated() {
   const token = cookies().get("admin_token");
   if (!token) return false;
@@ -22,7 +22,7 @@ function isAuthenticated() {
   }
 }
 
-// GET - Recupera tutti gli articoli
+// GET - Retrieve all articles
 export async function GET() {
   try {
     const articles = await sql`
@@ -55,7 +55,7 @@ export async function GET() {
   }
 }
 
-// POST - Aggiungi un nuovo articolo
+// POST - Add a new article
 export async function POST(request: Request) {
   if (!isAuthenticated()) {
     return NextResponse.json(
@@ -105,7 +105,7 @@ export async function POST(request: Request) {
   }
 }
 
-// PUT - Aggiorna un articolo esistente
+// PUT - Update an existing article
 export async function PUT(request: Request) {
   if (!isAuthenticated()) {
     return NextResponse.json(
@@ -160,7 +160,7 @@ export async function PUT(request: Request) {
   }
 }
 
-// DELETE - Elimina un articolo
+// DELETE - Delete an article
 export async function DELETE(request: Request) {
   if (!isAuthenticated()) {
     return NextResponse.json(

@@ -1,8 +1,15 @@
 "use client";
 
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { usePrivy } from "@privy-io/react-auth";
 import { Dialog, Transition } from "@headlessui/react";
-import { HiOutlineXMark, HiClock, HiUser, HiCalendar } from "react-icons/hi2";
+import {
+  HiOutlineXMark,
+  HiClock,
+  HiUser,
+  HiCalendar,
+  HiCheckCircle,
+} from "react-icons/hi2";
 import { IArticle } from "@/types";
 
 interface ArticleModalProps {
@@ -16,7 +23,65 @@ const ArticleModal: React.FC<ArticleModalProps> = ({
   onClose,
   article,
 }) => {
+  const { user, authenticated } = usePrivy();
+  const [isMarkedAsRead, setIsMarkedAsRead] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Check if article is already read when modal opens
+  useEffect(() => {
+    const checkReadStatus = async () => {
+      if (!article || !authenticated || !user) {
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoading(true);
+      setIsMarkedAsRead(false); // Reset state when article changes
+
+      try {
+        const response = await fetch(
+          `/api/user/progress/check?userId=${user.id}&contentType=article&contentId=${article.id}`,
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setIsMarkedAsRead(data.completed || false);
+        }
+      } catch (error) {
+        console.error("Error checking read status:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (isOpen) {
+      checkReadStatus();
+    }
+  }, [isOpen, article, authenticated, user]);
+
   if (!article) return null;
+
+  const markAsRead = async () => {
+    if (!authenticated || !user) return;
+
+    try {
+      const response = await fetch("/api/user/progress", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          contentType: "article",
+          contentId: article.id,
+          completed: true,
+        }),
+      });
+
+      if (response.ok) {
+        setIsMarkedAsRead(true);
+      }
+    } catch (error) {
+      console.error("Error marking article as read:", error);
+    }
+  };
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -95,16 +160,33 @@ const ArticleModal: React.FC<ArticleModalProps> = ({
 
                 {/* Footer */}
                 <div className="border-t-4 border-foreground bg-primary/30 p-6">
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
                     <p className="text-sm text-foreground/70">
                       Did you find this article helpful?
                     </p>
-                    <button
-                      onClick={onClose}
-                      className="px-6 py-2 font-bold text-foreground border-2 border-foreground bg-primary hover:bg-secondary hover:text-white transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
-                    >
-                      Close
-                    </button>
+                    <div className="flex gap-3">
+                      {authenticated && !isMarkedAsRead && (
+                        <button
+                          onClick={markAsRead}
+                          className="px-6 py-2 font-bold text-white border-2 border-foreground bg-secondary hover:bg-foreground transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                        >
+                          <HiCheckCircle className="inline w-5 h-5 mr-2" />
+                          Mark as Read
+                        </button>
+                      )}
+                      {isMarkedAsRead && (
+                        <span className="px-6 py-2 font-bold text-foreground border-2 border-foreground bg-primary flex items-center gap-2">
+                          <HiCheckCircle className="w-5 h-5 text-green-600" />
+                          Completed!
+                        </span>
+                      )}
+                      <button
+                        onClick={onClose}
+                        className="px-6 py-2 font-bold text-foreground border-2 border-foreground bg-primary hover:bg-secondary hover:text-white transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
+                      >
+                        Close
+                      </button>
+                    </div>
                   </div>
                 </div>
               </Dialog.Panel>

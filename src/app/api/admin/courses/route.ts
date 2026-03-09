@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const JWT_SECRET =
   process.env.JWT_SECRET || "fallback-secret-change-in-production";
 
-// Verifica se l'utente è admin
+// Check if user is admin
 function isAuthenticated() {
   const token = cookies().get("admin_token");
   if (!token) return false;
@@ -22,7 +22,7 @@ function isAuthenticated() {
   }
 }
 
-// GET - Recupera tutti i corsi
+// GET - Retrieve all courses
 export async function GET() {
   try {
     const courses = await sql`
@@ -46,7 +46,7 @@ export async function GET() {
       ORDER BY c.id
     `;
 
-    // Trasforma i dati nel formato atteso
+    // Transform data to expected format
     const formattedCourses = courses.map((course: any) => ({
       id: course.id.toString(),
       title: course.title,
@@ -73,7 +73,7 @@ export async function GET() {
   }
 }
 
-// POST - Aggiungi un nuovo corso
+// POST - Add a new course
 export async function POST(request: Request) {
   if (!isAuthenticated()) {
     return NextResponse.json(
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
   try {
     const courseData = await request.json();
 
-    // Inserisci il nuovo corso
+    // Insert the new course
     const result = await sql`
       INSERT INTO courses (title, description, duration, level, thumbnail, category, instructor, students)
       VALUES (${courseData.title}, ${courseData.description}, ${courseData.duration}, 
@@ -96,7 +96,7 @@ export async function POST(request: Request) {
 
     const newCourse = result[0];
 
-    // Inserisci i moduli se presenti
+    // Insert modules if present
     if (courseData.modules && courseData.modules.length > 0) {
       for (const module of courseData.modules) {
         await sql`
@@ -126,7 +126,7 @@ export async function POST(request: Request) {
   }
 }
 
-// PUT - Aggiorna un corso esistente
+// PUT - Update an existing course
 export async function PUT(request: Request) {
   if (!isAuthenticated()) {
     return NextResponse.json(
@@ -145,7 +145,7 @@ export async function PUT(request: Request) {
       );
     }
 
-    // Aggiorna il corso
+    // Update the course
     const result = await sql`
       UPDATE courses 
       SET title = ${courseData.title},
@@ -168,12 +168,12 @@ export async function PUT(request: Request) {
       );
     }
 
-    // Aggiorna i moduli se presenti
+    // Update modules if present
     if (courseData.modules) {
-      // Elimina i moduli esistenti
+      // Delete existing modules
       await sql`DELETE FROM course_modules WHERE course_id = ${parseInt(courseData.id)}`;
 
-      // Inserisci i nuovi moduli
+      // Insert new modules
       for (const module of courseData.modules) {
         await sql`
           INSERT INTO course_modules (course_id, module_id, title, description, duration, "order", content)
@@ -196,7 +196,7 @@ export async function PUT(request: Request) {
   }
 }
 
-// DELETE - Elimina un corso
+// DELETE - Delete a course
 export async function DELETE(request: Request) {
   if (!isAuthenticated()) {
     return NextResponse.json(
@@ -215,7 +215,7 @@ export async function DELETE(request: Request) {
       );
     }
 
-    // Elimina il corso (i moduli verranno eliminati automaticamente per CASCADE)
+    // Delete the course (modules will be automatically deleted by CASCADE)
     const result = await sql`
       DELETE FROM courses WHERE id = ${parseInt(id)}
       RETURNING id

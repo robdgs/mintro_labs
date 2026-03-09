@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { usePrivy } from "@privy-io/react-auth";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Container from "@/components/Container";
 import SectionTitle from "@/components/SectionTitle";
@@ -20,6 +22,8 @@ import {
 } from "react-icons/hi2";
 
 const PlatformPage: React.FC = () => {
+  const { login, authenticated, user } = usePrivy();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<
     "courses" | "articles" | "quizzes"
   >("courses");

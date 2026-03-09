@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
 import ScrollToTop from "@/components/ScrollToTop";
+import PrivyProviderWrapper from "@/components/PrivyProviderWrapper";
 import { siteDetails } from "@/data/siteDetails";
 
 import "./globals.css";
@@ -48,14 +49,16 @@ export default function RootLayout({
       <body
         className={`${manrope.className} ${sourceSans.className} antialiased`}
       >
-        <Loader />
-        {siteDetails.googleAnalyticsId && (
-          <GoogleAnalytics gaId={siteDetails.googleAnalyticsId} />
-        )}
-        <Header />
-        <main>{children}</main>
-        <Footer />
-        <ScrollToTop />
+        <PrivyProviderWrapper>
+          <Loader />
+          {siteDetails.googleAnalyticsId && (
+            <GoogleAnalytics gaId={siteDetails.googleAnalyticsId} />
+          )}
+          <Header />
+          <main>{children}</main>
+          <Footer />
+          <ScrollToTop />
+        </PrivyProviderWrapper>
       </body>
     </html>
   );
