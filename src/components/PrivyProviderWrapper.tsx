@@ -27,8 +27,8 @@ export default function PrivyProviderWrapper({
           showWalletLoginFirst: false,
         },
         embeddedWallets: {
-          createOnLogin: "users-without-wallets" as any,
-        },
+          createOnLogin: "users-without-wallets",
+        } as any,
       }}
     >
       {children}
