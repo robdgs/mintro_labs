@@ -11,6 +11,8 @@ import { siteDetails } from "@/data/siteDetails";
 
 import "./globals.css";
 
+export const dynamic = "force-dynamic";
+
 const manrope = Manrope({ subsets: ["latin"] });
 const sourceSans = Source_Sans_3({ subsets: ["latin"] });
 
