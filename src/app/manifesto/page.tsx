@@ -4,7 +4,14 @@ import Container from "@/components/Container";
 
 const ManifestoPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-background pt-40 pb-20">
+    <div
+      className="min-h-screen bg-background pt-40 pb-20"
+      style={{
+        backgroundImage:
+          "linear-gradient(to right, #2e2e2e12 1px, transparent 1px), linear-gradient(to bottom, #2e2e2e12 1px, transparent 1px)",
+        backgroundSize: "20px 20px",
+      }}
+    >
       {/* Fixed Back to Home Button */}
       <div className="fixed top-24 left-4 md:top-40 md:left-20 z-40">
         <Link
