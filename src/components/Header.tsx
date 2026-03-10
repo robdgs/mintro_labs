@@ -98,7 +98,7 @@ const Header: React.FC = () => {
               <li>
                 <button
                   onClick={login}
-                  className="relative text-foreground font-bold px-6 py-2.5 border-2 border-foreground bg-[#fafaf5] hover:bg-primary transition-all duration-200"
+                  className="relative text-foreground font-bold px-6 py-2.5 border-2 border-foreground bg-[#fafaf5] hover:bg-primary transition-all duration-200 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)] hover:shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]"
                 >
                   Login
                 </button>

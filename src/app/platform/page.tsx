@@ -369,15 +369,15 @@ const PlatformPage: React.FC = () => {
 
             {/* CTA Section */}
             <div className="text-center bg-primary border-2 border-foreground shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] p-12 mt-16">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                Ready to Start Learning?
-              </h2>
-              <p className="text-lg text-foreground/70 mb-8">
-                Join thousands of learners and start your journey today.
+              <div className="flex items-center justify-center gap-3 mb-4">
+                <HiAcademicCap className="w-10 h-10 md:w-12 md:h-12 text-foreground" />
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground">
+                  Start Learning
+                </h2>
+              </div>
+              <p className="text-lg md:text-xl text-foreground/80 max-w-2xl mx-auto">
+                Join thousands of learners and start your journey today
               </p>
-              <button className="bg-secondary text-white font-bold px-8 py-4 border-2 border-foreground hover:bg-foreground transition-all duration-200 shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] hover:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] hover:translate-x-[-2px] hover:translate-y-[-2px]">
-                Get Started Now
-              </button>
             </div>
           </>
         )}
