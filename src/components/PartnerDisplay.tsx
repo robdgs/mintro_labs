@@ -35,6 +35,12 @@ const PartnerDisplay: React.FC = () => {
       width: 158,
       height: 158,
     },
+{
+      src: "/images/ctrlshift.svg",
+      alt: "CtrlShift logo",
+      width: 258,
+      height: 658,
+    },
     {
       src: "/images/urbe-eth-black.png",
       alt: "Urbe logo",
