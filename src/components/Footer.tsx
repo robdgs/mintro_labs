@@ -33,7 +33,7 @@ const Footer: React.FC = () => {
           </ul>
         </div>
         <div>
-          <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
+          <h4 className="text-lg font-semibold mb-4">Social</h4>
 
           {footerDetails.email && (
             <a
