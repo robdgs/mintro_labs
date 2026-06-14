@@ -32,10 +32,10 @@ export async function POST(request: NextRequest) {
           role: "user",
           content: `You are a helpful learning assistant for an educational platform. Help users with questions about courses, articles, and quizzes. Keep responses concise and friendly. If users ask about specific content, guide them to explore the platform.`,
         },
-        ...messages.map((msg: any) => ({
-          role: msg.type === "user" ? "user" : "assistant",
-          content: msg.content,
-        })),
+...messages.map((msg: any) => ({
+  role: (msg.type === "user" ? "user" : "assistant") as "user" | "assistant",
+  content: msg.content as string,
+})),
       ],
     });
 
