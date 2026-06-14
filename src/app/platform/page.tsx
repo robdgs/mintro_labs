@@ -12,6 +12,7 @@ import QuizCard from "@/components/Platform/QuizCard";
 import ArticleModal from "@/components/Platform/ArticleModal";
 import QuizModal from "@/components/Platform/QuizModal";
 import CourseModal from "@/components/Platform/CourseModal";
+import ChatBot from "@/components/ChatBot";
 import { IArticle, IQuiz, ICourse } from "@/types";
 import {
   HiAcademicCap,
@@ -19,13 +20,14 @@ import {
   HiSparkles,
   HiArrowLeft,
   HiMagnifyingGlass,
+  HiChatBubbleLeftRight,
 } from "react-icons/hi2";
 
 const PlatformPage: React.FC = () => {
   const { login, authenticated, user } = usePrivy();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<
-    "courses" | "articles" | "quizzes"
+    "courses" | "articles" | "quizzes" | "chat"
   >("courses");
   const [selectedArticle, setSelectedArticle] = useState<IArticle | null>(null);
   const [selectedQuiz, setSelectedQuiz] = useState<IQuiz | null>(null);
@@ -89,7 +91,7 @@ const PlatformPage: React.FC = () => {
   };
 
   // Reset filtri quando si cambia tab
-  const handleTabChange = (tab: "courses" | "articles" | "quizzes") => {
+  const handleTabChange = (tab: "courses" | "articles" | "quizzes" | "chat") => {
     setActiveTab(tab);
     setSearchQuery("");
     setSelectedCategory("all");
@@ -207,10 +209,21 @@ const PlatformPage: React.FC = () => {
             <HiSparkles className="w-5 h-5" />
             <span>Quizzes ({quizzes.length})</span>
           </button>
+          <button
+            onClick={() => handleTabChange("chat")}
+            className={`flex items-center gap-2 px-6 py-3 font-bold border-2 border-foreground transition-all duration-200 ${
+              activeTab === "chat"
+                ? "bg-primary text-foreground shadow-[4px_4px_0px_0px_rgba(46,46,46,1)]"
+                : "bg-[#fafaf5] text-foreground/60 hover:bg-primary/50 shadow-[2px_2px_0px_0px_rgba(46,46,46,1)]"
+            }`}
+          >
+            <HiChatBubbleLeftRight className="w-5 h-5" />
+            <span>Chat</span>
+          </button>
         </div>
 
         {/* Search Bar and Filters */}
-        <div className="max-w-5xl mx-auto mb-12">
+        <div className="max-w-7xl mx-auto mb-12">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search Bar */}
             <div className="flex-1 relative">
@@ -228,22 +241,6 @@ const PlatformPage: React.FC = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full pl-12 pr-4 py-3 border-2 border-foreground bg-white shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] focus:outline-none focus:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all duration-200 font-medium"
               />
-            </div>
-
-            {/* Category Filter */}
-            <div className="md:w-48">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full px-4 py-3 pr-10 border-2 border-foreground bg-white shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] focus:outline-none focus:shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] focus:translate-x-[-2px] focus:translate-y-[-2px] transition-all duration-200 font-medium cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=UTF-8,%3csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%3E%3cpath%20d%3D%22M7%207l3%203%203-3%22%20stroke%3D%22%232e2e2e%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3c%2Fsvg%3E')] bg-[length:1.5em] bg-[right_0.5rem_center] bg-no-repeat"
-              >
-                <option value="all">All Categories</option>
-                {allCategories.map((category) => (
-                  <option key={category} value={category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
             </div>
 
             {/* Level Filter (only for courses and quizzes) */}
@@ -278,97 +275,146 @@ const PlatformPage: React.FC = () => {
           </div>
         ) : (
           <>
-            {/* Content Grid */}
-            <div className="mb-12">
-              {activeTab === "courses" && (
-                <div>
-                  <SectionTitle>
-                    <h2 className="text-center mb-4">Explore Our Courses</h2>
-                  </SectionTitle>
-                  <p className="text-center text-foreground/70 mb-8">
-                    Choose from a variety of courses designed to help you master
-                    new skills
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                    {filteredCourses.map((course) => (
-                      <div
-                        key={course.id}
-                        onClick={() => handleCourseClick(course)}
+            {/* Main Content with Sidebar */}
+            <div className="max-w-7xl mx-auto mb-12 flex flex-col lg:flex-row gap-8">
+              {/* Sidebar - Categories (hidden for chat) */}
+              {activeTab !== "chat" && (
+                <aside className="lg:w-56 flex-shrink-0">
+                  <div className="bg-[#fafaf5] border-2 border-foreground shadow-[4px_4px_0px_0px_rgba(46,46,46,1)] p-6 sticky top-32 max-h-[500px] overflow-y-auto">
+                    <h3 className="font-bold text-foreground mb-4">Categories</h3>
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => setSelectedCategory("all")}
+                        className={`w-full text-left px-4 py-2 border-2 font-semibold transition-all ${
+                          selectedCategory === "all"
+                            ? "bg-secondary text-white border-foreground shadow-[2px_2px_0px_0px_rgba(46,46,46,1)]"
+                            : "bg-white text-foreground border-foreground hover:bg-primary"
+                        }`}
                       >
-                        <CourseCard course={course} />
-                      </div>
-                    ))}
+                        All Categories
+                      </button>
+                      {allCategories.map((category) => (
+                        <button
+                          key={category}
+                          onClick={() => setSelectedCategory(category)}
+                          className={`w-full text-left px-4 py-2 border-2 font-semibold transition-all ${
+                            selectedCategory === category
+                              ? "bg-secondary text-white border-foreground shadow-[2px_2px_0px_0px_rgba(46,46,46,1)]"
+                              : "bg-white text-foreground border-foreground hover:bg-primary"
+                          }`}
+                        >
+                          {category}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  {filteredCourses.length === 0 && (
-                    <p className="text-center text-foreground/50 py-10">
-                      {searchQuery ||
-                      selectedCategory !== "all" ||
-                      selectedLevel !== "all"
-                        ? "No courses found with these filters."
-                        : "No courses available yet."}
-                    </p>
-                  )}
-                </div>
+                </aside>
               )}
 
-              {activeTab === "articles" && (
-                <div>
-                  <SectionTitle>
-                    <h2 className="text-center mb-4">Read Our Articles</h2>
-                  </SectionTitle>
-                  <p className="text-center text-foreground/70 mb-8">
-                    Stay updated with insights, tips, and industry trends
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                    {filteredArticles.map((article) => (
-                      <div
-                        key={article.id}
-                        onClick={() => handleArticleClick(article)}
-                      >
-                        <ArticleCard article={article} />
-                      </div>
-                    ))}
-                  </div>
-                  {filteredArticles.length === 0 && (
-                    <p className="text-center text-foreground/50 py-10">
-                      {searchQuery || selectedCategory !== "all"
-                        ? "No articles found with these filters."
-                        : "No articles available yet."}
+              {/* Content Grid */}
+              <div className="flex-1">
+                {activeTab === "courses" && (
+                  <div>
+                    <SectionTitle>
+                      <h2 className="text-center mb-4">Explore Our Courses</h2>
+                    </SectionTitle>
+                    <p className="text-center text-foreground/70 mb-8">
+                      Choose from a variety of courses designed to help you master
+                      new skills
                     </p>
-                  )}
-                </div>
-              )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                      {filteredCourses.map((course) => (
+                        <div
+                          key={course.id}
+                          onClick={() => handleCourseClick(course)}
+                        >
+                          <CourseCard course={course} />
+                        </div>
+                      ))}
+                    </div>
+                    {filteredCourses.length === 0 && (
+                      <p className="text-center text-foreground/50 py-10">
+                        {searchQuery ||
+                        selectedCategory !== "all" ||
+                        selectedLevel !== "all"
+                          ? "No courses found with these filters."
+                          : "No courses available yet."}
+                      </p>
+                    )}
+                  </div>
+                )}
 
-              {activeTab === "quizzes" && (
-                <div>
-                  <SectionTitle>
-                    <h2 className="text-center mb-4">Test Your Knowledge</h2>
-                  </SectionTitle>
-                  <p className="text-center text-foreground/70 mb-8">
-                    Challenge yourself with quizzes to reinforce your learning
-                  </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-                    {filteredQuizzes.map((quiz) => (
-                      <div key={quiz.id} onClick={() => handleQuizClick(quiz)}>
-                        <QuizCard quiz={quiz} />
-                      </div>
-                    ))}
-                  </div>
-                  {filteredQuizzes.length === 0 && (
-                    <p className="text-center text-foreground/50 py-10">
-                      {searchQuery ||
-                      selectedCategory !== "all" ||
-                      selectedLevel !== "all"
-                        ? "No quizzes found with these filters."
-                        : "No quizzes available yet."}
+                {activeTab === "articles" && (
+                  <div>
+                    <SectionTitle>
+                      <h2 className="text-center mb-4">Read Our Articles</h2>
+                    </SectionTitle>
+                    <p className="text-center text-foreground/70 mb-8">
+                      Stay updated with insights, tips, and industry trends
                     </p>
-                  )}
-                </div>
-              )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                      {filteredArticles.map((article) => (
+                        <div
+                          key={article.id}
+                          onClick={() => handleArticleClick(article)}
+                        >
+                          <ArticleCard article={article} />
+                        </div>
+                      ))}
+                    </div>
+                    {filteredArticles.length === 0 && (
+                      <p className="text-center text-foreground/50 py-10">
+                        {searchQuery || selectedCategory !== "all"
+                          ? "No articles found with these filters."
+                          : "No articles available yet."}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {activeTab === "quizzes" && (
+                  <div>
+                    <SectionTitle>
+                      <h2 className="text-center mb-4">Test Your Knowledge</h2>
+                    </SectionTitle>
+                    <p className="text-center text-foreground/70 mb-8">
+                      Challenge yourself with quizzes to reinforce your learning
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                      {filteredQuizzes.map((quiz) => (
+                        <div key={quiz.id} onClick={() => handleQuizClick(quiz)}>
+                          <QuizCard quiz={quiz} />
+                        </div>
+                      ))}
+                    </div>
+                    {filteredQuizzes.length === 0 && (
+                      <p className="text-center text-foreground/50 py-10">
+                        {searchQuery ||
+                        selectedCategory !== "all" ||
+                        selectedLevel !== "all"
+                          ? "No quizzes found with these filters."
+                          : "No quizzes available yet."}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {activeTab === "chat" && (
+                  <div className="max-w-2xl mx-auto">
+                    <SectionTitle>
+                      <h2 className="text-center mb-4">Learning Assistant</h2>
+                    </SectionTitle>
+                    <p className="text-center text-foreground/70 mb-8">
+                      Ask me anything about our courses, articles, and quizzes
+                    </p>
+                    <ChatBot embedded />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* CTA Section */}
-            <div className="text-center bg-primary border-2 border-foreground shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] p-12 mt-16">
+            <div className="max-w-7xl mx-auto text-center bg-primary border-2 border-foreground shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] p-12 mt-16">
               <div className="flex items-center justify-center gap-3 mb-4">
                 <HiAcademicCap className="w-10 h-10 md:w-12 md:h-12 text-foreground" />
                 <h2 className="text-3xl md:text-4xl font-bold text-foreground">

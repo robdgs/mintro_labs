@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import Loader from "@/components/Loader";
 import ScrollToTop from "@/components/ScrollToTop";
 import PrivyProviderWrapper from "@/components/PrivyProviderWrapper";
+import { UserProfileSaver } from "@/components/UserProfileSaver";
 import { siteDetails } from "@/data/siteDetails";
 
 import "./globals.css";
@@ -52,6 +53,7 @@ export default function RootLayout({
         className={`${manrope.className} ${sourceSans.className} antialiased`}
       >
         <PrivyProviderWrapper>
+          <UserProfileSaver />
           <Loader />
           {siteDetails.googleAnalyticsId && (
             <GoogleAnalytics gaId={siteDetails.googleAnalyticsId} />

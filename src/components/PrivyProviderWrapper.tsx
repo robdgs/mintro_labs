@@ -19,11 +19,10 @@ export default function PrivyProviderWrapper({
     <PrivyProvider
       appId={process.env.NEXT_PUBLIC_PRIVY_APP_ID || ""}
       config={{
-        loginMethods: ["email", "wallet", "google"],
+        loginMethods: ["email"],
         appearance: {
           theme: "light",
           accentColor: "#A3FF12",
-          logo: "/images/logo.png",
           showWalletLoginFirst: false,
         },
         embeddedWallets: {

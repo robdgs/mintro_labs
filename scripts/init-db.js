@@ -99,6 +99,36 @@ async function initDatabase() {
     `;
     console.log("✓ Tabella quiz_questions creata\n");
 
+    console.log("📋 Creazione tabella users...");
+    await sql`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        privy_user_id VARCHAR(255) UNIQUE NOT NULL,
+        email VARCHAR(255),
+        wallet_address VARCHAR(255),
+        profile_picture_url TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `;
+    console.log("✓ Tabella users creata\n");
+
+    console.log("📋 Creazione tabella user_progress...");
+    await sql`
+      CREATE TABLE IF NOT EXISTS user_progress (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(255) NOT NULL,
+        content_type VARCHAR(50) NOT NULL,
+        content_id INTEGER NOT NULL,
+        completed BOOLEAN DEFAULT false,
+        completed_at TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(user_id, content_type, content_id)
+      )
+    `;
+    console.log("✓ Tabella user_progress creata\n");
+
     console.log("📋 Creazione indici...");
     await sql`CREATE INDEX IF NOT EXISTS idx_courses_category ON courses(category)`;
     await sql`CREATE INDEX IF NOT EXISTS idx_courses_level ON courses(level)`;
@@ -107,6 +137,8 @@ async function initDatabase() {
     await sql`CREATE INDEX IF NOT EXISTS idx_quizzes_category ON quizzes(category)`;
     await sql`CREATE INDEX IF NOT EXISTS idx_course_modules_course_id ON course_modules(course_id)`;
     await sql`CREATE INDEX IF NOT EXISTS idx_quiz_questions_quiz_id ON quiz_questions(quiz_id)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_users_privy_id ON users(privy_user_id)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_user_progress_user_id ON user_progress(user_id)`;
     console.log("✓ Indici creati\n");
 
     console.log("✅ Database inizializzato con successo!\n");
@@ -115,7 +147,9 @@ async function initDatabase() {
     console.log("  ✓ course_modules");
     console.log("  ✓ articles");
     console.log("  ✓ quizzes");
-    console.log("  ✓ quiz_questions\n");
+    console.log("  ✓ quiz_questions");
+    console.log("  ✓ users");
+    console.log("  ✓ user_progress\n");
     console.log("🎯 Prossimo passo: node scripts/run-migration.js");
   } catch (error) {
     console.error("❌ Errore durante l'inizializzazione:", error);

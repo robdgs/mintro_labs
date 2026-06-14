@@ -62,7 +62,7 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
   ) => {
     if (!authenticated || !user) return;
 
-    const passed = finalScore / totalQuestions >= 0.6; // 60% passing grade
+    const passed = finalScore === totalQuestions; // All answers must be correct
 
     if (passed) {
       try {
@@ -275,7 +275,9 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
                         <h3 className="text-3xl font-bold text-foreground mb-4">
                           Quiz Completed! 🎉
                         </h3>
-                        <div className="inline-block bg-primary border-4 border-foreground p-6 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)]">
+                        <div className={`inline-block border-4 border-foreground p-6 shadow-[6px_6px_0px_0px_rgba(46,46,46,1)] ${
+                          isPassed ? "bg-green-100" : "bg-red-100"
+                        }`}>
                           <p className="text-5xl font-bold text-foreground mb-2">
                             {score}/{quiz.quizQuestions!.length}
                           </p>
@@ -285,6 +287,15 @@ const QuizModal: React.FC<QuizModalProps> = ({ isOpen, onClose, quiz }) => {
                             )}
                             % Correct
                           </p>
+                          {isPassed ? (
+                            <p className="text-lg font-bold text-green-700 mt-3">
+                              ✓ Quiz Passed!
+                            </p>
+                          ) : (
+                            <p className="text-lg font-bold text-red-700 mt-3">
+                              ✗ All answers must be correct to pass
+                            </p>
+                          )}
                         </div>
                       </div>
 
