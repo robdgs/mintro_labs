@@ -20,8 +20,7 @@ const Footer: React.FC = () => {
             {footerDetails.subheading}
           </p>
         </div>
-        <div>
-          
+     
         <div>
           <h4 className="text-lg font-semibold mb-4">Social</h4>
 
