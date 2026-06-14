@@ -22,7 +22,7 @@ export default function ChatBot({ embedded = false }: ChatBotProps) {
     {
       id: "1",
       type: "bot",
-      content: "Hello! How can I help you with our courses, articles, or quizzes today?",
+      content: "Hello! How can I help you today?",
       timestamp: new Date(),
     },
   ]);
@@ -112,7 +112,7 @@ export default function ChatBot({ embedded = false }: ChatBotProps) {
         {/* Header */}
         <div className="bg-secondary text-white p-4 border-b-2 border-foreground">
           <h3 className="font-bold text-lg">Learning Assistant</h3>
-          <p className="text-sm opacity-90">Ask me anything about our platform</p>
+          <p className="text-sm opacity-90">Ask me anything</p>
         </div>
 
         {/* Messages Container */}
@@ -203,7 +203,7 @@ export default function ChatBot({ embedded = false }: ChatBotProps) {
           {/* Header */}
           <div className="bg-secondary text-white p-4 border-b-2 border-foreground">
             <h3 className="font-bold text-lg">Learning Assistant</h3>
-            <p className="text-sm opacity-90">Ask me anything about our platform</p>
+            <p className="text-sm opacity-90">Ask me anything</p>
           </div>
 
           {/* Messages Container */}
