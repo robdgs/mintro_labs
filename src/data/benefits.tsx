@@ -79,7 +79,7 @@ export const benefits: IBenefit[] = [
     ],
     imageSrc: "/images/Untitled.png",
   },
-  {
+ /* {
     title: "By Our Side",
     description:
       "Mintro Labs partners with ABA2020 to bring innovation directly to schools, universities, and enterprises. \n Thanks to ABA2020 Mintro Labs delivers hands-on blockchain education directly into classrooms and universities.",
@@ -103,5 +103,5 @@ export const benefits: IBenefit[] = [
       },
     ],
     imageSrc: "/images/aba.png",
-  },
+  },*/
 ];

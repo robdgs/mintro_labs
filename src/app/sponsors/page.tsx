@@ -723,7 +723,7 @@ const SponsorsPage: React.FC = () => {
               "Urbe.eth",
               "42 School",
               "CtrlShift",
-              "ABA2020",
+              
               "Dev3 Pack",
             ].map((name, i) => (
               <div
